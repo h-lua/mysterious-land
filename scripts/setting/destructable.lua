@@ -16,7 +16,7 @@ onMapDestructableDestroy = function()
         if (destId == 'LTba') then
             -- 路障，给10木材
             hitem.fleeting(
-                hitem.FLEETING_IDS.LUMBER,
+                HL_ID.item_fleeting.lumber,
                 cj.GetDestructableX(dest),
                 cj.GetDestructableY(dest),
                 20,
@@ -34,7 +34,7 @@ onMapDestructableDestroy = function()
         elseif (destId == 'LTcr') then
             -- 木箱，给黄金
             hitem.fleeting(
-                hitem.FLEETING_IDS.GOLD,
+                HL_ID.item_fleeting.gold,
                 cj.GetDestructableX(dest),
                 cj.GetDestructableY(dest),
                 20,

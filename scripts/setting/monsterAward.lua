@@ -8,22 +8,22 @@ onNormalAwardFleeting = function(fleetingData)
     if (his.allyPlayer(fleetingData.enterUnit, game.ALLY_PLAYER) and his.playing(p) and his.computer(p) == false) then
         local buffId = cj.GetUnitTypeId(fleetingData.centerUnit)
         hunit.del(fleetingData.centerUnit)
-        if (buffId == hitem.FLEETING_IDS.GOLD) then
+        if (buffId == HL_ID.item_fleeting.gold) then
             haward.forUnitGold(fleetingData.enterUnit, math.random(10, 20))
             hsound.voice2Player(SOUND.voice_ReceiveGold, p)
-        elseif (buffId == hitem.FLEETING_IDS.LUMBER) then
+        elseif (buffId == HL_ID.item_fleeting.lumber) then
             haward.forUnitLumber(fleetingData.enterUnit, 1)
             hsound.voice2Player(SOUND.voice_BundleOfLumber, p)
-        elseif (buffId == hitem.FLEETING_IDS.BOOK_YELLOW) then
+        elseif (buffId == HL_ID.item_fleeting.book_yellow) then
             heffect.toUnit("Abilities\\Spells\\Items\\AIsm\\AIsmTarget.mdl", fleetingData.enterUnit, 1)
             hattr.set(fleetingData.enterUnit, 0, { str_green = "+1" })
-        elseif (buffId == hitem.FLEETING_IDS.BOOK_RED) then
+        elseif (buffId == HL_ID.item_fleeting.book_red) then
             heffect.toUnit("Abilities\\Spells\\Items\\AIam\\AIamTarget.mdl", fleetingData.enterUnit, 1)
             hattr.set(fleetingData.enterUnit, 0, { agi_green = "+1" })
-        elseif (buffId == hitem.FLEETING_IDS.BOOK_PURPLE) then
+        elseif (buffId == HL_ID.item_fleeting.book_purple) then
             heffect.toUnit("Abilities\\Spells\\Items\\AIim\\AIimTarget.mdl", fleetingData.enterUnit, 1)
             hattr.set(fleetingData.enterUnit, 0, { int_green = "+1" })
-        elseif (buffId == hitem.FLEETING_IDS.DOTA2_CURE) then
+        elseif (buffId == HL_ID.item_fleeting.dota2_cure) then
             hattr.set(fleetingData.enterUnit, 3, {
                 life_back = "+150",
                 life_mana = "+100",
@@ -32,7 +32,7 @@ onNormalAwardFleeting = function(fleetingData)
                 "Abilities\\Spells\\Items\\ScrollOfRejuvenation\\ScrollManaHealth.mdl",
                 fleetingData.enterUnit, "origin", 3
             )
-        elseif (buffId == hitem.FLEETING_IDS.DOTA2_DAMAGE) then
+        elseif (buffId == HL_ID.item_fleeting.dota2_damage) then
             hattr.set(fleetingData.enterUnit, 15, {
                 damage_extent = "+10",
             })
@@ -40,9 +40,9 @@ onNormalAwardFleeting = function(fleetingData)
                 "Abilities\\Spells\\Orc\\Bloodlust\\BloodlustTarget.mdl",
                 fleetingData.enterUnit, "origin", 15
             )
-        elseif (buffId == hitem.FLEETING_IDS.DOTA2_GOLD) then
+        elseif (buffId == HL_ID.item_fleeting.dota2_gold) then
             hplayer.addGoldRatio(p, 10, 40)
-        elseif (buffId == hitem.FLEETING_IDS.DOTA2_SPEED) then
+        elseif (buffId == HL_ID.item_fleeting.dota2_speed) then
             hattr.set(fleetingData.enterUnit, 7, {
                 attack_speed = "+25",
                 move = "+120",
@@ -51,7 +51,7 @@ onNormalAwardFleeting = function(fleetingData)
                 "Abilities\\Weapons\\PhoenixMissile\\Phoenix_Missile_mini.mdl",
                 fleetingData.enterUnit, "origin", 7
             )
-        elseif (buffId == hitem.FLEETING_IDS.DOTA2_INVISIBLE) then
+        elseif (buffId == HL_ID.item_fleeting.dota2_invisible) then
             hskill.visible(fleetingData.enterUnit, 10, 0.3, nil)
         end
     end
@@ -74,16 +74,16 @@ onNormalAward = function(evtData)
     end
     if (math.random(1, 50) == 26) then
         local buffs = {
-            hitem.FLEETING_IDS.GOLD,
-            hitem.FLEETING_IDS.LUMBER,
-            hitem.FLEETING_IDS.BOOK_RED,
-            hitem.FLEETING_IDS.BOOK_YELLOW,
-            hitem.FLEETING_IDS.BOOK_PURPLE,
-            hitem.FLEETING_IDS.DOTA2_CURE,
-            hitem.FLEETING_IDS.DOTA2_DAMAGE,
-            hitem.FLEETING_IDS.DOTA2_GOLD,
-            hitem.FLEETING_IDS.DOTA2_SPEED,
-            hitem.FLEETING_IDS.DOTA2_INVISIBLE,
+            HL_ID.item_fleeting.gold,
+            HL_ID.item_fleeting.lumber,
+            HL_ID.item_fleeting.book_red,
+            HL_ID.item_fleeting.book_yellow,
+            HL_ID.item_fleeting.book_purple,
+            HL_ID.item_fleeting.dota2_cure,
+            HL_ID.item_fleeting.dota2_damage,
+            HL_ID.item_fleeting.dota2_gold,
+            HL_ID.item_fleeting.dota2_speed,
+            HL_ID.item_fleeting.dota2_invisible,
         }
         local buff = table.random(buffs)
         hitem.fleeting(buff, hunit.x(triggerUnit), hunit.y(triggerUnit), 30, onNormalAwardFleeting)
@@ -110,7 +110,7 @@ onEliteAward = function(evtData)
     end
     for _ = 1, (4 + level) do
         hitem.fleeting(
-            hitem.FLEETING_IDS.GOLD,
+            HL_ID.item_fleeting.gold,
             hunit.x(triggerUnit) + math.random(0, 200),
             hunit.y(triggerUnit) + math.random(0, 200),
             30,

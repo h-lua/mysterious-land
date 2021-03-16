@@ -15,7 +15,7 @@ end
 stage_fleeting = function(deadUnit, gold)
     for _ = 1, (9 + game.diff + hplayer.qty_current) do
         hitem.fleeting(
-            hitem.FLEETING_IDS.GOLD,
+            HL_ID.item_fleeting.gold,
             hunit.x(deadUnit) + math.random(0, 200),
             hunit.y(deadUnit) + math.random(0, 200),
             30,
