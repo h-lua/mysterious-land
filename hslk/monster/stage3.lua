@@ -20,7 +20,7 @@ local monster = {
         scale = 1.00,
         unitSound = "Kobold",
         weapTp1 = CONST_WEAPON_TYPE.missile.value,
-        Missileart = "Abilities\\Weapons\\FireBallMissile\\FireBallMissile.mdl",
+        Missileart_1 = "Abilities\\Weapons\\FireBallMissile\\FireBallMissile.mdl",
     },
     {
         Name = "伺妖怪人",
@@ -29,7 +29,7 @@ local monster = {
         scale = 2.00,
         unitSound = "Hydra",
         weapTp1 = CONST_WEAPON_TYPE.missile.value,
-        Missileart = "Abilities\\Weapons\\ChimaeraAcidMissile\\ChimaeraAcidMissile.mdl",
+        Missileart_1 = "Abilities\\Weapons\\ChimaeraAcidMissile\\ChimaeraAcidMissile.mdl",
         rangeN1 = 350,
     },
 }
@@ -50,8 +50,8 @@ for _, v in ipairs(monster) do
     end
     if (v.weapTp1 == CONST_WEAPON_TYPE.missile.value) then
         v.rangeN1 = v.rangeN1 or 450
-        v.Missileart = v.Missileart or "Abilities\\Weapons\\WaterElementalMissile\\WaterElementalMissile.mdl"
-        v.Missilearc = 0.1
+        v.Missileart_1 = v.Missileart_1 or "Abilities\\Weapons\\WaterElementalMissile\\WaterElementalMissile.mdl"
+        v.Missilearc_1 = 0.1
     else
         v.rangeN1 = v.rangeN1 or 110
         v.weapType1 = CONST_WEAPON_SOUND.WoodHeavyBash.value

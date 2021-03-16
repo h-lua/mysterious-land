@@ -6,7 +6,7 @@ local monster = {
         scale = 0.80,
         unitSound = "Bandit",
         weapTp1 = CONST_WEAPON_TYPE.missile.value,
-        Missileart = "Abilities\\Weapons\\Banditmissile\\Banditmissile.mdl"
+        Missileart_1 = "Abilities\\Weapons\\Banditmissile\\Banditmissile.mdl"
     },
     {
         Name = "秘地小傀儡",
@@ -40,8 +40,8 @@ for _, v in ipairs(monster) do
     end
     if (v.weapTp1 == CONST_WEAPON_TYPE.missile.value) then
         v.rangeN1 = 600
-        v.Missileart = v.Missileart or "Abilities\\Weapons\\WaterElementalMissile\\WaterElementalMissile.mdl"
-        v.Missilearc = 0.1
+        v.Missileart_1 = v.Missileart_1 or "Abilities\\Weapons\\WaterElementalMissile\\WaterElementalMissile.mdl"
+        v.Missilearc_1 = 0.1
     else
         v.rangeN1 = 130
         v.weapType1 = CONST_WEAPON_SOUND.WoodHeavyBash.value

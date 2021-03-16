@@ -3,6 +3,9 @@
 require "h-lua" -- h-lua库
 require "scripts.alias" -- alias h-lua库别称（参考）
 require "scripts.setup" -- setup 游戏准备
+require "scripts.sound" -- 声音
+require "scripts.ui" -- UI
+
 -- 加载本地图的设置
 require "scripts.setting.global"
 require "scripts.setting.dz"
@@ -24,7 +27,6 @@ require "scripts.stages.stage6"
 require "scripts.stages.stage7"
 require "scripts.stages.stage8"
 require "scripts.stages.stage9"
-require "scripts.ui" -- UI
 
 -- h-lua main function 主函数入口
 -- The game starts here 游戏从main函数开始运行

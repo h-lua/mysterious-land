@@ -27,7 +27,7 @@ hslk_hero({
     dmgplus1 = 21, -- 基础攻击
     weapTp1 = CONST_WEAPON_TYPE.missile.value, -- 攻击类型
     weapType1 = nil, -- 攻击类型
-    Missileart = "Abilities\\Weapons\\MoonPriestessMissile\\MoonPriestessMissile.mdl", -- 箭矢
+    Missileart_1 = "Abilities\\Weapons\\MoonPriestessMissile\\MoonPriestessMissile.mdl", -- 箭矢
     cool1 = 1.7, -- 攻击周期
     backSw1 = 0.7, -- 攻击后摇
     dmgpt1 = 0.3, -- 攻击前摇
@@ -41,6 +41,10 @@ hslk_hero({
     AGIplus = 2.5,
     INTplus = 2.5,
     race = "human",
+    heroAbilList = "",
+    goldcost = 0,
+    lumbercost = 0,
+    fused = 0,
     _feature = "典雅之月",
     _ability = { sk1._id }
 })

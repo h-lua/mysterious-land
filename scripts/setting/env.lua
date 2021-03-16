@@ -23,7 +23,7 @@ islands = {
         name = "篝火洞府",
         rect = hrect.create(-770, -8446, 2560, 2432, "篝火洞府"),
         env = "ruins",
-        bgm = cg.gg_snd_bgm_stage3,
+        bgm = SOUND.bgm_stage3,
         allowWeather = {
             { weather = hweather.rain },
             { weather = hweather.wind },
@@ -33,7 +33,7 @@ islands = {
         name = "迷惑之森",
         rect = hrect.create(5385, -7171, 7930, 5100, "迷惑之森"),
         env = "summer",
-        bgm = cg.gg_snd_bgm_stage4,
+        bgm = SOUND.bgm_stage4,
         allowWeather = {
             { weather = "time" },
             { weather = hweather.rain },
@@ -66,7 +66,7 @@ islands = {
         name = "金钟之城",
         rect = hrect.create(-6655, 5633, 5000, 7100, "金钟之城"),
         env = nil,
-        bgm = cg.gg_snd_bgm_stage6,
+        bgm = SOUND.bgm_stage6,
         allowWeather = {
             { weather = "time" },
         },
@@ -75,7 +75,7 @@ islands = {
         name = "雪原",
         rect = hrect.create(-773, 2300, 5632, 5632, "雪原"),
         env = "winter",
-        bgm = cg.gg_snd_bgm_stage7,
+        bgm = SOUND.bgm_stage7,
         allowWeather = {
             { weather = hweather.mistwhite },
             { weather = hweather.snow },
@@ -86,7 +86,7 @@ islands = {
         name = "雪原2",
         rect = hrect.create(-773, 2300, 4096, 6144, "雪原2"),
         env = "winterDeep",
-        bgm = cg.gg_snd_bgm_stage7,
+        bgm = SOUND.bgm_stage7,
         allowWeather = {
             { weather = hweather.mistwhite },
             { weather = hweather.snow },
@@ -108,7 +108,7 @@ islands = {
         name = "火蛇山",
         rect = hrect.create(3467, 7168, 10240, 3584, "火蛇山"),
         env = "fire",
-        bgm = cg.gg_snd_bgm_stage9,
+        bgm = SOUND.bgm_stage9,
         allowWeather = {
             { weather = hweather.mistred },
         },
@@ -141,13 +141,13 @@ autoWeather = function(obj)
         })
         -- 音效
         if (weather == hweather.sun) then
-            hsound.voice2Rect(cg.gg_snd_voice_rect_sun, obj.rect, during - 1)
+            hsound.voice2Rect(SOUND.voice_rect_sun, obj.rect, during - 1)
         elseif (weather == hweather.moon) then
-            hsound.voice2Rect(cg.gg_snd_voice_rect_moon, obj.rect, during - 1)
+            hsound.voice2Rect(SOUND.voice_rect_moon, obj.rect, during - 1)
         elseif (weather == hweather.wind or weather == hweather.windstorm) then
-            hsound.voice2Rect(cg.gg_snd_voice_rect_wind, obj.rect, during - 1)
+            hsound.voice2Rect(SOUND.voice_rect_wind, obj.rect, during - 1)
         elseif (weather == hweather.rainstorm) then
-            hsound.voice2Rect(cg.gg_snd_voice_rect_rainstorm, obj.rect, during - 1)
+            hsound.voice2Rect(SOUND.voice_rect_rainstorm, obj.rect, during - 1)
         end
         local dur = 0
         htime.setInterval(4, function(t)
@@ -240,8 +240,8 @@ autoWeather = function(obj)
                 for i = 1, (4 + game.diff) do
                     htime.setTimeout(i * 0.1, function(ti)
                         htime.delTimer(ti)
-                        local x = math.random(hrect.getStartX(obj.rect), hrect.getEndX(obj.rect))
-                        local y = math.random(hrect.getStartY(obj.rect), hrect.getEndY(obj.rect))
+                        local x = math.random(hrect.getMinX(obj.rect), hrect.getMaxX(obj.rect))
+                        local y = math.random(hrect.getMinY(obj.rect), hrect.getMaxY(obj.rect))
                         local radius = 120 + 10 * game.diff
                         htexture.alertCircle(radius * 2, x, y, 2)
                         htime.setTimeout(2, function(tl)
@@ -270,7 +270,7 @@ autoWeather = function(obj)
                                     move = "-" .. (100 + game.diff),
                                 })
                                 htexture.mark(htexture.DEFAULT_MARKS.DIAGONAL_SLASH, duri, hunit.getOwner(enumUnit), 0, 0, 255)
-                                hsound.voice2Player(cg.gg_snd_voice_thunder, hunit.getOwner(enumUnit))
+                                hsound.voice2Player(SOUND.voice_thunder, hunit.getOwner(enumUnit))
                             end, true)
                         end)
                     end)
@@ -340,7 +340,7 @@ autoWeather = function(obj)
                         hattr.set(enumUnit, 2.5, {
                             move = "-" .. (30 + game.diff),
                         })
-                        hsound.voice2Player(cg.gg_snd_voice_wind, hunit.getOwner(enumUnit))
+                        hsound.voice2Player(SOUND.voice_wind, hunit.getOwner(enumUnit))
                     end
                 end, true)
             elseif (weather == hweather.windstorm) then
@@ -365,7 +365,7 @@ autoWeather = function(obj)
                         hattr.set(enumUnit, 2.5, {
                             move = "-" .. (50 + game.diff),
                         })
-                        hsound.voice2Player(cg.gg_snd_voice_wind, hunit.getOwner(enumUnit))
+                        hsound.voice2Player(SOUND.voice_wind, hunit.getOwner(enumUnit))
                     end
                 end, true)
             elseif (weather == hweather.mistwhite) then
@@ -517,7 +517,7 @@ autoWeather = function(obj)
                                 hattr.set(enumUnit, 7, {
                                     defend_green = "-" .. (5 + 2 * game.diff),
                                 })
-                                hsound.voice2Player(cg.gg_snd_voice_ghost, hunit.getOwner(enumUnit))
+                                hsound.voice2Player(SOUND.voice_ghost, hunit.getOwner(enumUnit))
                             end, true)
                         end)
                     end)
@@ -539,6 +539,6 @@ for _, v in ipairs(islands) do
     end)
     -- 海域
     if (v.name == "斑斓海" or v.name == "斑斓海2") then
-        hsound.voice2Rect(cg.gg_snd_voice_rect_sea, v.rect)
+        hsound.voice2Rect(SOUND.voice_rect_sea, v.rect)
     end
 end

@@ -12,7 +12,6 @@ hslk_hero({
     dmgplus1 = 40, -- 基础攻击
     weapTp1 = CONST_WEAPON_TYPE.normal.value, -- 攻击类型
     weapType1 = CONST_WEAPON_SOUND.MetalHeavyBash.value, -- 攻击声音
-    Missileart = "", -- 箭矢
     cool1 = 1.8, -- 攻击周期
     backSw1 = 0.65, -- 攻击后摇
     dmgpt1 = 0.35, -- 攻击前摇
@@ -26,5 +25,9 @@ hslk_hero({
     AGIplus = 1.5,
     INTplus = 1.6,
     race = "human",
+    heroAbilList = "",
+    goldcost = 0,
+    lumbercost = 0,
+    fused = 0,
     _feature = "王权",
 })

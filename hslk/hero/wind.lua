@@ -12,7 +12,6 @@ hslk_hero({
     dmgplus1 = 33, -- 基础攻击
     weapTp1 = CONST_WEAPON_TYPE.normal.value, -- 攻击类型
     weapType1 = CONST_WEAPON_SOUND.MetalMediumSlice.value, -- 攻击类型
-    Missileart = "", -- 箭矢
     cool1 = 1.5, -- 攻击周期
     backSw1 = 0.84, -- 攻击后摇
     dmgpt1 = 0.33, -- 攻击前摇
@@ -26,5 +25,9 @@ hslk_hero({
     AGIplus = 3.1,
     INTplus = 2.0,
     race = "human",
+    heroAbilList = "",
+    goldcost = 0,
+    lumbercost = 0,
+    fused = 0,
     _feature = "剑圣",
 })

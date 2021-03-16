@@ -1,10 +1,10 @@
 [CmdMove]
 Art=CommandMove
-Buttonpos=0,0
+Buttonpos=0,-11
 
 [CmdAttack]
 Art=CommandAttack
-Buttonpos=3,0
+Buttonpos=0,0
 
 [CmdAttackGround]
 Art=CommandAttackGround
@@ -52,7 +52,7 @@ Buttonpos=2,0
 
 [CmdPatrol]
 Art=CommandPatrol
-Buttonpos=0,1
+Buttonpos=0,-11
 
 [CmdPurchase]
 Art=CommandPurchase

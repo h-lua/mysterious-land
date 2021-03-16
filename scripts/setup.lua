@@ -15,10 +15,10 @@ hevent.onPlayerResourceChange(function(evtData)
         local val = math.floor(evtData.value)
         if (evtData.type == 'gold') then
             htextTag.style(htextTag.create2Unit(u, "+" .. val .. " 万担金", 6, "ffcc00", 1, 1.70, 60.00), "toggle", 0, 0.20)
-            hsound.voice2Unit(cg.gg_snd_ReceiveGold, 100, u)
+            hsound.voice2Unit(SOUND.voice_ReceiveGold, 100, u)
         elseif (evtData.type == 'lumber') then
             htextTag.style(htextTag.create2Unit(u, "+" .. val .. " 精选木", 7, "80ff80", 1, 1.70, 60.00), "toggle", 0, 0.20)
-            hsound.voice2Unit(cg.gg_snd_BundleOfLumber, 100, u)
+            hsound.voice2Unit(SOUND.voice_BundleOfLumber, 100, u)
         end
     end
 end)
@@ -28,7 +28,8 @@ hevent.onPickHero(function(evtPickData)
     local newHero = evtPickData.triggerUnit
     local owner = hunit.getOwner(newHero)
     echo(hcolor.green(hplayer.getName(owner)) .. "的英雄灵魂成为了" .. hcolor.yellow("<" .. hunit.getName(newHero) .. ">"))
-    local heroSlk = hunit.getHSlk(newHero)
+    local heroId = hunit.getId(newHero)
+    local heroSlk = hslk.i2v(heroId)
     -- 镜头
     hcamera.toUnit(owner, 0, newHero)
     -- 开启硬直
@@ -41,12 +42,12 @@ hevent.onPickHero(function(evtPickData)
     })
     -- 特性、技能、天赋
     if (heroSlk ~= nil) then
-        local feature = heroSlk.feature
+        local feature = heroSlk._feature
         if (feature ~= nil) then
             feature = "特性 - " .. feature
             hskill.add(newHero, hslk.n2i(feature))
         end
-        local ability = heroSlk.ability
+        local ability = heroSlk._ability
         if (ability ~= nil) then
             for _, a in ipairs(ability) do
                 hskill.add(newHero, hslk.n2i(a))
@@ -99,7 +100,7 @@ hevent.onPickHero(function(evtPickData)
         -- 中途心跳声
         htime.setTimeout(2, function(heartTimer)
             htime.delTimer(heartTimer)
-            hsound.voice2Player(cg.gg_snd_voice_heart_beat, owner)
+            hsound.voice2Player(SOUND.voice_heart_beat, owner)
         end)
     end)
     --- 检测环境音效
@@ -113,7 +114,7 @@ hevent.onPickHero(function(evtPickData)
         if (his.dead(newHero)) then
             return
         end
-        local bgm = cg.gg_snd_bgm_main
+        local bgm = SOUND.bgm_main
         for _, obj in ipairs(islands) do
             if (his.inRect(obj.rect, hunit.x(newHero), hunit.y(newHero)) == true) then
                 if (obj.bgm == "nil") then

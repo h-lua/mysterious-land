@@ -65,7 +65,7 @@ stage_spell = function(whichUnit, message, cd, animate, ready, call)
             end)
         end
         ready()
-        hsound.voice2Unit(cg.gg_snd_voice_dump, 80, whichUnit)
+        hsound.voice2Unit(SOUND.voice_drum, 80, whichUnit)
         stage_ttg_sk(whichUnit, message)
         hunit.animate(whichUnit, animate)
         hattr.set(whichUnit, stage_holdOn(), {

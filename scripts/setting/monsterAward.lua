@@ -10,10 +10,10 @@ onNormalAwardFleeting = function(fleetingData)
         hunit.del(fleetingData.centerUnit)
         if (buffId == hitem.FLEETING_IDS.GOLD) then
             haward.forUnitGold(fleetingData.enterUnit, math.random(10, 20))
-            hsound.voice2Player(cg.gg_snd_ReceiveGold, p)
+            hsound.voice2Player(SOUND.voice_ReceiveGold, p)
         elseif (buffId == hitem.FLEETING_IDS.LUMBER) then
             haward.forUnitLumber(fleetingData.enterUnit, 1)
-            hsound.voice2Player(cg.gg_snd_BundleOfLumber, p)
+            hsound.voice2Player(SOUND.voice_BundleOfLumber, p)
         elseif (buffId == hitem.FLEETING_IDS.BOOK_YELLOW) then
             heffect.toUnit("Abilities\\Spells\\Items\\AIsm\\AIsmTarget.mdl", fleetingData.enterUnit, 1)
             hattr.set(fleetingData.enterUnit, 0, { str_green = "+1" })
@@ -122,7 +122,7 @@ onEliteAward = function(evtData)
                 if (his.allyPlayer(fleetingData.enterUnit, game.ALLY_PLAYER) and his.playing(p) and his.computer(p) == false) then
                     hunit.del(fleetingData.centerUnit)
                     haward.forUnitGold(fleetingData.enterUnit, gold)
-                    hsound.voice2Player(cg.gg_snd_ReceiveGold, p)
+                    hsound.voice2Player(SOUND.voice_ReceiveGold, p)
                 end
             end
         )
