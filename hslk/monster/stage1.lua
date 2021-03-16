@@ -25,7 +25,6 @@ local monster = {
 }
 
 for _, v in ipairs(monster) do
-    v.Name = v.Name
     v.race = "undead"
     v.Art = "ReplaceableTextures\\CommandButtons\\BTNShade.blp"
     v.HP = 100

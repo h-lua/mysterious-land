@@ -13,7 +13,6 @@ require "scripts.setting.destructable"
 game.ALLY_PLAYER = hplayer.players[12]
 require "scripts.setting.f9"
 require "scripts.setting.quest"
-require "scripts.setting.itemMatchUsed"
 -- stage
 require "scripts.stages.common"
 require "scripts.stages.stage1"
@@ -99,7 +98,7 @@ function main()
                 if (his.playing(hplayer.players[i])) then
                     local c = hunit.create({
                         whichPlayer = hplayer.players[i],
-                        unitId = hunit.n2i("小饥鸡"),
+                        unitId = hslk.n2i("小饥鸡"),
                         x = hhero.bornX,
                         y = hhero.bornY,
                     })

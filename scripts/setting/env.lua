@@ -392,8 +392,8 @@ autoWeather = function(obj)
                 for i = 1, (3 + game.diff) do
                     htime.setTimeout(i * 0.1, function(ti)
                         htime.delTimer(ti)
-                        local x = math.random(hrect.getStartX(obj.rect), hrect.getEndX(obj.rect))
-                        local y = math.random(hrect.getStartY(obj.rect), hrect.getEndY(obj.rect))
+                        local x = math.random(hrect.getMinX(obj.rect), hrect.getMaxX(obj.rect))
+                        local y = math.random(hrect.getMinY(obj.rect), hrect.getMaxY(obj.rect))
                         local radius = 180 + 10 * game.diff
                         htexture.alertCircle(radius * 2, x, y, 2)
                         heffect.toXY("Units\\Demon\\Infernal\\InfernalBirth.mdl", x, y)
@@ -490,8 +490,8 @@ autoWeather = function(obj)
                 for i = 1, (6 + game.diff) do
                     htime.setTimeout(i * 0.3, function(ti)
                         htime.delTimer(ti)
-                        local x = math.random(hrect.getStartX(obj.rect), hrect.getEndX(obj.rect))
-                        local y = math.random(hrect.getStartY(obj.rect), hrect.getEndY(obj.rect))
+                        local x = math.random(hrect.getMinX(obj.rect), hrect.getMaxX(obj.rect))
+                        local y = math.random(hrect.getMinY(obj.rect), hrect.getMaxY(obj.rect))
                         local radius = 150 + 10 * game.diff
                         htexture.alertCircle(radius * 2, x, y, 2)
                         htime.setTimeout(2, function(tl)

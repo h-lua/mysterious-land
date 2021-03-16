@@ -6,7 +6,7 @@ hplayer.convert_ratio = 1000000 -- 换算比率，100金 -> 1木
 hcmd.conf({ "-gg", "-apm", "-eff", "-random", "-repick", "-d" }, { 1 })
 
 -- 设定敌军
-henemy.set("怪物", CONST_PLAYER_COLOR.BLACK, { 8, 9, 10, 11 })
+henemy.set("怪物", PLAYER_COLOR_BLACK, { 8, 9, 10, 11 })
 
 --- 设定获得黄金木头特效
 hevent.onPlayerResourceChange(function(evtData)
@@ -44,18 +44,18 @@ hevent.onPickHero(function(evtPickData)
         local feature = heroSlk.feature
         if (feature ~= nil) then
             feature = "特性 - " .. feature
-            hskill.add(newHero, hskill.n2i(feature))
+            hskill.add(newHero, hslk.n2i(feature))
         end
         local ability = heroSlk.ability
         if (ability ~= nil) then
             for _, a in ipairs(ability) do
-                hskill.add(newHero, hskill.n2i(a))
+                hskill.add(newHero, hslk.n2i(a))
             end
         end
-        hskill.add(newHero, hskill.n2i("武 - 封印"))
-        hskill.add(newHero, hskill.n2i("御 - 封印"))
-        hskill.add(newHero, hskill.n2i("速 - 封印"))
-        hskill.add(newHero, hskill.n2i("奇 - 封印"))
+        hskill.add(newHero, hslk.n2i("武 - 封印"))
+        hskill.add(newHero, hslk.n2i("御 - 封印"))
+        hskill.add(newHero, hslk.n2i("速 - 封印"))
+        hskill.add(newHero, hslk.n2i("奇 - 封印"))
     end
     --- 升级
     hevent.onLevelUp(newHero, function(evtData)
@@ -134,20 +134,20 @@ hevent.onPickHero(function(evtPickData)
     local mapLv = hdzapi.mapLv(owner)
     if (mapLv > 9) then
         hitem.create({
-            itemId = hitem.n2i("初始月钥-Max"),
+            itemId = hslk.n2i("初始月钥-Max"),
             charges = 1,
             whichUnit = newHero,
         })
     else
         hitem.create({
-            itemId = hitem.n2i("初始月钥-Lv" .. mapLv),
+            itemId = hslk.n2i("初始月钥-Lv" .. mapLv),
             charges = 1,
             whichUnit = newHero,
         })
     end
     local prestige = hplayer.getPrestige(owner)
     hitem.create({
-        itemId = hitem.n2i("诀尊阳钥[" .. prestige .. "专享]"),
+        itemId = hslk.n2i("诀尊阳钥[" .. prestige .. "专享]"),
         charges = 1,
         whichUnit = newHero,
     })

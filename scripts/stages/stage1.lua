@@ -3,14 +3,14 @@ stage1 = function()
     -- 小神木商店
     FIRST_SHOP = hunit.create({
         whichPlayer = hplayer.player_passive,
-        unitId = hunit.n2i("小神木商店"),
+        unitId = hslk.n2i("小神木商店"),
         x = -7040,
         y = -8317,
         facing = 270,
     })
     -- 土匪
     henemy.create({
-        unitId = hunit.n2i("土匪"),
+        unitId = hslk.n2i("土匪"),
         x = -6057,
         y = -8706,
         facing = 180,
@@ -24,7 +24,7 @@ stage1 = function()
     })
     -- boss
     local boss = henemy.create({
-        unitId = hunit.n2i("秘地傀儡"),
+        unitId = hslk.n2i("秘地傀儡"),
         x = -5036,
         y = -8908,
         facing = 180,
@@ -47,7 +47,7 @@ stage1 = function()
             move = "+5",
         })
         henemy.create({
-            unitId = hunit.n2i("秘地小傀儡"),
+            unitId = hslk.n2i("秘地小傀儡"),
             x = hunit.x(evtData.triggerUnit),
             y = hunit.y(evtData.triggerUnit),
             facing = hunit.getFacing(evtData.triggerUnit),

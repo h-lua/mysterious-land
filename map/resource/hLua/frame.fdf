@@ -1,6 +1,10 @@
 ﻿
 IncludeFile "UI\FrameDef\Glue\BattleNetTemplates.fdf",
 
+// 称号
+Frame "TEXT" "txt_prestige" INHERITS "BattleNetValueTextTemplate" {
+    Text "称号: -",
+}
 // 伤害值
 Frame "TEXT" "txt_dps" INHERITS "BattleNetValueTextTemplate" {
     Text "DPS: 0",

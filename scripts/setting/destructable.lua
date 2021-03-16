@@ -65,7 +65,7 @@ onMapDestructableDestroy = function()
             end
             rgn = '秘笈：' .. rgn
             hitem.create({
-                itemId = hitem.n2i(rgn),
+                itemId = hslk.n2i(rgn),
                 charges = 1,
                 x = cj.GetDestructableX(dest),
                 y = cj.GetDestructableY(dest),

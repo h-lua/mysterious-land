@@ -10,6 +10,7 @@ integer FK_TXT_GOLD = 3
 integer FK_TXT_LUMBER = 4
 integer FK_TXT_EXP = 5
 integer FK_TXT_SELL = 6
+integer FK_TXT_PRESTIGE = 7
 
 integer FK_ATTR = 8
 integer FK_BG_ATTR_DESC = 9

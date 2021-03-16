@@ -3,7 +3,7 @@ stage3 = function()
 
     local fire = hunit.create({
         whichPlayer = game.ALLY_PLAYER,
-        unitId = hunit.n2i('孤单的火窖'),
+        unitId = hslk.n2i('孤单的火窖'),
         x = -763,
         y = -8641,
         _attr = {
@@ -12,7 +12,7 @@ stage3 = function()
         }
     })
     local boss = henemy.create({
-        unitId = hunit.n2i("伺妖怪人"),
+        unitId = hslk.n2i("伺妖怪人"),
         x = -761,
         y = -8191,
         _attr = {
@@ -73,7 +73,7 @@ stage3 = function()
         local xy = { { -2016, -7799 }, { -1374, -7224 }, { -343, -7510 }, { 301, -7989 } }
         local xyt = table.random(xy)
         henemy.create({
-            unitId = hunit.n2i(m[mi]),
+            unitId = hslk.n2i(m[mi]),
             x = xyt[1],
             y = xyt[2],
             _attr = a[mi],
