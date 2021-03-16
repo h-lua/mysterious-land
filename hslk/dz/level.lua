@@ -122,7 +122,7 @@ for k, v in ipairs(items) do
     v.sellable = 0
     v.pawnable = 0
     v.droppable = 0
-    v.perishable = 0
+    v.perishable = 1
     v._cooldown = 0
     v._overlie = 1
     v._weight = 0

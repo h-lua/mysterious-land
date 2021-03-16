@@ -8,7 +8,7 @@ onMapDestructableDestroy = function()
     }
     --
     hevent.onMapDestructableDestroy(function(evtData)
-        if (math.random(1, 3) ~= 2) then
+        if (math.random(1, 10) == 5) then
             return
         end
         local dest = evtData.triggerDestructable

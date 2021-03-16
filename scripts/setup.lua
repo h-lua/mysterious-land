@@ -81,18 +81,18 @@ hevent.onPickHero(function(evtPickData)
     end)
     --- 复活动作
     hevent.onDead(newHero, function(evtData)
+        local p = hunit.getOwner(evtData.triggerUnit)
         if (game.rebornQty <= 0) then
-            local deadOwner = hunit.getOwner(evtData.triggerUnit)
-            echo(hcolor.red(hplayer.getName(deadOwner)) .. "的英雄不幸死亡了，他离开了我们")
-            hplayer.defeat(deadOwner, "冒险失败")
+            echo(hcolor.red(hplayer.getName(p)) .. "的英雄不幸死亡了，他离开了我们")
+            hplayer.defeat(p, "冒险失败")
             return
         end
         game.rebornQty = game.rebornQty - 1
         local rebornTime = 5
-        echo(hcolor.green(hplayer.getName(owner)) .. "的英雄死亡了，" .. hcolor.yellow(rebornTime) .. '秒后复活')
+        echo(hcolor.green(hplayer.getName(p)) .. "的英雄死亡了，" .. hcolor.yellow(rebornTime) .. '秒后复活')
         -- 血幕
         htexture.mark(htexture.DEFAULT_MARKS.DREAM, rebornTime, p, 255, 0, 0)
-        hhero.rebornAtXY(
+        hhero.reborn(
             evtData.triggerUnit, rebornTime, 3,
             hunit.x(evtData.triggerUnit), hunit.y(evtData.triggerUnit),
             true
@@ -100,7 +100,7 @@ hevent.onPickHero(function(evtPickData)
         -- 中途心跳声
         htime.setTimeout(2, function(heartTimer)
             htime.delTimer(heartTimer)
-            hsound.voice2Player(SOUND.voice_heart_beat, owner)
+            hsound.voice2Player(SOUND.voice_heart_beat, p)
         end)
     end)
     --- 检测环境音效

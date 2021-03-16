@@ -42,27 +42,26 @@ local gift = {
 
 local _used = _onItemUsed(function(evtData)
     local triggerUnit = evtData.triggerUnit
-    local triggerSkill = evtData.triggerSkill
-    if (triggerSkill == nil) then
-        return
-    end
     local playerIndex = hplayer.index(hunit.getOwner(triggerUnit))
     local hero = hhero.player_heroes[playerIndex][1] -- 兼容信使
     if (hero == nil or his.deleted(hero)) then
         return
     end
     local gt = "tao"
-    local fid = hskill.n2i("奇 - 封印")
+    local fid = hslk.n2i("奇 - 封印")
     if (hskill.has(hero, fid)) then
         hskill.del(hero, fid)
     end
     if (game.playerData.gift[playerIndex][gt] ~= nil) then
         hskill.del(hero, game.playerData.gift[playerIndex][gt])
     end
+    local itemName = hitem.getName(evtData.triggerItem)
+    local abName = string.gsub(itemName, "秘笈：", "")
+    local triggerSkill = hslk.n2i(abName)
     hskill.add(hero, triggerSkill)
     game.playerData.gift[playerIndex][gt] = triggerSkill
     heffect.toUnit("Abilities\\Spells\\Items\\AIem\\AIemTarget.mdl", hero)
-    echo("学会了[奇]技[" .. hcolor.green(hslk.i2v(triggerSkill, "Name")) .. "]")
+    echo("学会了[奇]技[" .. hcolor.green(abName) .. "]")
 end)
 
 for _, v in ipairs(gift) do

@@ -35,10 +35,23 @@ function main()
     UI()
 
     hsound.bgmStop()
+
+    local sourcePlayer = hplayer.players[8]
+    local otherPlayer = hplayer.players[1]
+    --cj.SetPlayerAlliance(sourcePlayer, otherPlayer, ALLIANCE_PASSIVE, false)
+    --cj.SetPlayerAlliance(sourcePlayer, otherPlayer, ALLIANCE_HELP_REQUEST, false)
+    --cj.SetPlayerAlliance(sourcePlayer, otherPlayer, ALLIANCE_HELP_RESPONSE, false)
+    --cj.SetPlayerAlliance(sourcePlayer, otherPlayer, ALLIANCE_SHARED_XP, false)
+    --cj.SetPlayerAlliance(sourcePlayer, otherPlayer, ALLIANCE_SHARED_SPELLS, false)
+    --cj.SetPlayerAlliance(sourcePlayer, otherPlayer, ALLIANCE_SHARED_VISION, true)
+    --cj.SetPlayerAlliance(sourcePlayer, otherPlayer, ALLIANCE_SHARED_CONTROL, true)
+    --cj.SetPlayerAlliance(sourcePlayer, otherPlayer, ALLIANCE_SHARED_ADVANCED_CONTROL, true)
+    --cj.SetPlayerAlliance(sourcePlayer, otherPlayer, ALLIANCE_PASSIVE, true)
+
     -- hello
     echo("^_^ 您来到了秘境，请选择" .. hcolor.yellow("你的英雄"))
     -- 可破坏物
-    htime.setTimeout(20, function(curTimer)
+    htime.setTimeout(10, function(curTimer)
         htime.delTimer(curTimer)
         onMapDestructableDestroy()
     end)
