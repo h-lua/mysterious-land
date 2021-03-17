@@ -12,4 +12,8 @@ hslk_unit({
     unitSound = "",
     weapsOn = 0,
     race = "human",
+    goldcost = 0,
+    lumbercost = 0,
+    fmade = 0,
+    fused = 0,
 })

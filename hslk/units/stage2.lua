@@ -288,6 +288,7 @@ local items = {
 
 local ids = ""
 for _, v in ipairs(items) do
+    v.stockRegen = 1
     local id = hslk_item(v)._id
     if (ids == "") then
         ids = id

@@ -31,6 +31,10 @@ for _, v in ipairs(monster) do
     v.nsight = 800
     v.acquire = 1000
     v.weapsOn = 1
+    v.goldcost = 0
+    v.lumbercost = 0
+    v.fmade = 0
+    v.fused = 0
     if (v.movetp == "fly") then
         v.moveHeight = 250
     elseif (v.movetp == "hover") then
