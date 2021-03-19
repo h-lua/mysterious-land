@@ -1,8 +1,8 @@
 local gift = {
     {
         Name = "封印",
-        _remarks = "[奇]字技，特别神奇且怪异的技能|n当前正处于封印状态",
         Art = "war3mapImported\\icon_pas_Slow_Grey.blp",
+        _remarks = "[奇]字技，特别神奇且怪异的技能|n当前正处于封印状态",
         _attr = nil,
     },
     {
