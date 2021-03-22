@@ -1,8 +1,8 @@
 local items = {
     {
-        _attr = {
+        _attr = _attr({
             life = "+30",
-        }
+        })
     },
     {
         _attr = {

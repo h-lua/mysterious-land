@@ -23,6 +23,58 @@ hevent.onPlayerResourceChange(function(evtData)
     end
 end)
 
+hevent_default_actions.hero.reborn = function(u, rebornSec)
+    local p = hunit.getOwner(u)
+    if (game.rebornQty <= 0) then
+        echo(hcolor.red(hplayer.getName(p)) .. "的英雄不幸死亡了，他离开了我们")
+        hplayer.defeat(p, "冒险失败")
+        return
+    end
+    game.rebornQty = game.rebornQty - 1
+    echo(hcolor.green(hplayer.getName(p)) .. "的英雄死亡了，" .. hcolor.yellow(rebornSec) .. '秒后复活')
+    -- 中途心跳声
+    local heartBeatTimer = htime.setInterval(1.8, function(_)
+        hsound.voice2Player(SOUND.voice_heart_beat, p)
+    end)
+    htime.setTimeout(rebornSec, function(heartTimer)
+        htime.delTimer(heartTimer)
+        htime.delTimer(heartBeatTimer)
+    end)
+    local x = hunit.x(u)
+    local y = hunit.y(u)
+    if (rebornSec > 0) then
+        htexture.mark(htexture.DEFAULT_MARKS.DREAM, rebornSec, p, 255, 0, 0)
+        local ghost = hunit.create({
+            register = false,
+            whichPlayer = hplayer.player_passive,
+            id = hunit.getId(u),
+            x = x,
+            y = y,
+            facing = 270,
+            height = 40,
+            modelScale = 0.9,
+            opacity = 0.6,
+            isShadow = true,
+            isInvulnerable = true,
+            during = rebornSec,
+        })
+        hunit.setColor(ghost, hplayer.index(p))
+        hunit.create({
+            register = false,
+            whichPlayer = p,
+            id = HL_ID.hero_death_token,
+            x = x,
+            y = y,
+            opacity = 0.8,
+            isShadow = true,
+            isInvulnerable = true,
+            during = rebornSec,
+            timeScale = 10 / rebornSec,
+        })
+    end
+    hhero.reborn(u, rebornSec, 1, x, y, true)
+end
+
 --- 英雄被选择
 hevent.onPickHero(function(evtPickData)
     local newHero = evtPickData.triggerUnit
@@ -36,6 +88,7 @@ hevent.onPickHero(function(evtPickData)
     hunit.enablePunish(newHero)
     -- 初始属性
     hattr.set(newHero, 0, {
+        reborn = "=5",
         weight = "=3",
         punish = "=1000",
         punish_current = "=1000"
@@ -79,30 +132,6 @@ hevent.onPickHero(function(evtPickData)
         local exp = math.floor(evtData.damage * 0.1)
         haward.forUnitExp(evtData.triggerUnit, exp)
     end)
-    --- 复活动作
-    hevent.onDead(newHero, function(evtData)
-        local p = hunit.getOwner(evtData.triggerUnit)
-        if (game.rebornQty <= 0) then
-            echo(hcolor.red(hplayer.getName(p)) .. "的英雄不幸死亡了，他离开了我们")
-            hplayer.defeat(p, "冒险失败")
-            return
-        end
-        game.rebornQty = game.rebornQty - 1
-        local rebornTime = 5
-        echo(hcolor.green(hplayer.getName(p)) .. "的英雄死亡了，" .. hcolor.yellow(rebornTime) .. '秒后复活')
-        -- 血幕
-        htexture.mark(htexture.DEFAULT_MARKS.DREAM, rebornTime, p, 255, 0, 0)
-        hhero.reborn(
-            evtData.triggerUnit, rebornTime, 3,
-            hunit.x(evtData.triggerUnit), hunit.y(evtData.triggerUnit),
-            true
-        )
-        -- 中途心跳声
-        htime.setTimeout(2, function(heartTimer)
-            htime.delTimer(heartTimer)
-            hsound.voice2Player(SOUND.voice_heart_beat, p)
-        end)
-    end)
     --- 检测环境音效
     htime.setInterval(3.5, function(curTimer)
         local p = hunit.getOwner(newHero)
@@ -132,23 +161,23 @@ hevent.onPickHero(function(evtPickData)
         end
     end)
     -- dz奖励
-    local mapLv = hdzapi.mapLv(owner)
+    local mapLv = hdzapi.mapLevel(owner)
     if (mapLv > 9) then
         hitem.create({
-            itemId = hslk.n2i("初始月钥-Max"),
+            id = hslk.n2i("初始月钥-Max"),
             charges = 1,
             whichUnit = newHero,
         })
     else
         hitem.create({
-            itemId = hslk.n2i("初始月钥-Lv" .. mapLv),
+            id = hslk.n2i("初始月钥-Lv" .. mapLv),
             charges = 1,
             whichUnit = newHero,
         })
     end
     local prestige = hplayer.getPrestige(owner)
     hitem.create({
-        itemId = hslk.n2i("诀尊阳钥[" .. prestige .. "专享]"),
+        id = hslk.n2i("诀尊阳钥[" .. prestige .. "专享]"),
         charges = 1,
         whichUnit = newHero,
     })
@@ -169,7 +198,7 @@ pickCourier = function(newCourier)
         local courierId = hunit.getId(evtData.triggerUnit)
         local nc = hunit.create({
             whichPlayer = hplayer.players[playerIndex],
-            unitId = courierId,
+            id = courierId,
             x = hunit.x(evtData.triggerUnit),
             y = hunit.y(evtData.triggerUnit),
             facing = hunit.getFacing(evtData.triggerUnit),

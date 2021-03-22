@@ -113,7 +113,7 @@ function main()
                 if (his.playing(hplayer.players[i])) then
                     local c = hunit.create({
                         whichPlayer = hplayer.players[i],
-                        unitId = hslk.n2i("小饥鸡"),
+                        id = hslk.n2i("小饥鸡"),
                         x = hhero.bornX,
                         y = hhero.bornY,
                     })

@@ -60,8 +60,8 @@ dzCurrent.doRecord = function(whichPlayer)
         point = game.playerData.prevPoint[playerIndex] + 100
     end
     -- 写入服务器
-    hdzapi.server.set.int(whichPlayer, "power", game.playerData.power[playerIndex])
-    hdzapi.server.set.int(whichPlayer, "point", point)
+    hdzapi.saveServer(whichPlayer, "power", game.playerData.power[playerIndex])
+    hdzapi.saveServer(whichPlayer, "point", point)
     if (game.playerData.power[playerIndex] > game.playerData.prevPower[playerIndex]) then
         hdzapi.setRoomStat(whichPlayer, "prestige", prestigeLabel) --房间称号
         hdzapi.setRoomStat(whichPlayer, "power", math.integerFormat(game.playerData.power[playerIndex])) --房间战力
@@ -75,8 +75,8 @@ dzCurrent.enableRecord = function(whichPlayer)
     hdzapi.setRoomStat(whichPlayer, "prestige", '')
     hdzapi.setRoomStat(whichPlayer, "power", '0')
     hdzapi.setRoomStat(whichPlayer, "point", '0')
-    hdzapi.server.clear.int(whichPlayer, "power")
-    hdzapi.server.clear.int(whichPlayer, "point")
+    hdzapi.clearServer(whichPlayer, "power")
+    hdzapi.clearServer(whichPlayer, "point")
     if (whichPlayer == nil or his.playing(whichPlayer) == false) then
         return
     end
@@ -88,20 +88,15 @@ dzCurrent.enableRecord = function(whichPlayer)
         gift_speed = nil,
         gift_tao = nil,
     }
-    game.playerData.prevPower[playerIndex] = hdzapi.server.get.int(whichPlayer, "power")
-    game.playerData.prevPoint[playerIndex] = hdzapi.server.get.int(whichPlayer, "point")
+    game.playerData.prevPower[playerIndex] = hdzapi.loadServerInteger(whichPlayer, "power")
+    game.playerData.prevPoint[playerIndex] = hdzapi.loadServerInteger(whichPlayer, "point")
     local prestigeLabel = dzCurrent.calePrestige(game.playerData.prevPower[playerIndex])
     hplayer.setPrestige(whichPlayer, prestigeLabel)
-    -- 10秒一次，自动检测玩家数据并保存,以1.7秒隔开每个玩家，不同时请求服务器
+    -- 10秒一次，自动检测玩家数据并保存
     htime.setInterval(10, function()
-        local clk = 0
         for i = 1, hplayer.qty_max, 1 do
             if (his.playing(hplayer.players[i])) then
-                htime.setTimeout(clk, function(curTimer)
-                    htime.delTimer(curTimer)
-                    dzCurrent.doRecord(hplayer.players[i])
-                end)
-                clk = clk + 1.7
+                dzCurrent.doRecord(hplayer.players[i])
             end
         end
     end)

@@ -113,7 +113,8 @@ end)
 
 for _, v in ipairs(gift) do
     if (v._attr ~= nil) then
-        v._attr.disabled = true
+        local _attr = table.clone(v._attr)
+        _attr.disabled = true
         hslk_item({
             Art = v.Art,
             Name = "秘笈：速 - " .. v.Name,
@@ -121,8 +122,9 @@ for _, v in ipairs(gift) do
             file = "Objects\\InventoryItems\\tomeBlue\\tomeBlue.mdl",
             race = "human",
             perishable = 1,
+            _type = "gift_speed",
             _cooldown = 0,
-            _attr = v._attr,
+            _attr = _attr,
             _onItemUsed = _used,
         })
     end

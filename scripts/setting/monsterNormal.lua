@@ -541,7 +541,7 @@ autoMonsterNormal = function(delay)
                     local qty = math.random(m.qty[1], m.qty[2])
                     for _ = 1, qty, 1 do
                         local u = henemy.create({
-                            unitId = hslk.n2i("[小怪]" .. table.random(m.mon)),
+                            id = hslk.n2i("[小怪]" .. table.random(m.mon)),
                             x = m.loc[1], --创建坐标X，可选
                             y = m.loc[2], --创建坐标Y，可选
                         })
