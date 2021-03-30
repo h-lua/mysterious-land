@@ -92,8 +92,8 @@ dzCurrent.enableRecord = function(whichPlayer)
     game.playerData.prevPoint[playerIndex] = hdzapi.loadServerInteger(whichPlayer, "point")
     local prestigeLabel = dzCurrent.calePrestige(game.playerData.prevPower[playerIndex])
     hplayer.setPrestige(whichPlayer, prestigeLabel)
-    -- 10秒一次，自动检测玩家数据并保存
-    htime.setInterval(10, function()
+    -- 20秒保存一次，自动检测玩家数据并保存
+    htime.setInterval(20, function()
         for i = 1, hplayer.qty_max, 1 do
             if (his.playing(hplayer.players[i])) then
                 dzCurrent.doRecord(hplayer.players[i])

@@ -73,5 +73,8 @@ for _, v in ipairs(couriers) do
     v.race = "human"
     v.abilList = "Avul"
     v.HP = 1000
+    v._attr = {
+        weight = "=9999"
+    }
     hslk_courier(v)
 end
