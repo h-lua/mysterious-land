@@ -103,7 +103,7 @@ hevent.onPickHero(function(evtPickData)
         local ability = heroSlk._ability
         if (ability ~= nil) then
             for _, a in ipairs(ability) do
-                hskill.add(newHero, hslk.n2i(a))
+                hskill.add(newHero, a)
             end
         end
         hskill.add(newHero, hslk.n2i("武 - 封印"))
