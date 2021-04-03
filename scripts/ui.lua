@@ -28,24 +28,24 @@ UI = function()
                     frame[k] = {}
                 end
                 local y = -0.08 - 0.02 * i
-                frame[k][idx] = hdzui.frameTag("TEXT", "txt", hdzui.gameUI())
-                hdzui.framePoint(frame[k][idx], hdzui.gameUI(), FRAME_ALIGN_LEFT, FRAME_ALIGN_LEFT_TOP, 0.004, y)
+                frame[k][idx] = hdzui.frameTag("TEXT", "txt", hdzui.origin.game())
+                hdzui.framePoint(frame[k][idx], hdzui.origin.game(), FRAME_ALIGN_LEFT, FRAME_ALIGN_LEFT_TOP, 0.004, y)
                 hdzui.frameSize(frame[k][idx], 0.1, 0.02)
                 hdzui.frameToggle(frame[k][idx], true, enumPlayer)
             end
-            frame.bg_attr_desc[idx] = hdzui.frameTag("BACKDROP", "bg", hdzui.gameUI())
-            hdzui.framePoint(frame.bg_attr_desc[idx], hdzui.gameUI(), FRAME_ALIGN_RIGHT_BOTTOM, FRAME_ALIGN_LEFT_TOP, 0.196, -0.59)
+            frame.bg_attr_desc[idx] = hdzui.frameTag("BACKDROP", "bg", hdzui.origin.game())
+            hdzui.framePoint(frame.bg_attr_desc[idx], hdzui.origin.game(), FRAME_ALIGN_RIGHT_BOTTOM, FRAME_ALIGN_LEFT_TOP, 0.196, -0.59)
             hdzui.frameSize(frame.bg_attr_desc[idx], 0.1, 0.1)
             hdzui.frameToggle(frame.bg_attr_desc[idx], false)
             for i, k in ipairs(bts) do
                 local y = -0.496 - 0.022 * i
                 local kb = "btn_attr_" .. k
-                frame[kb][idx] = hdzui.frameTag("BUTTON", kb, hdzui.gameUI())
-                hdzui.framePoint(frame[kb][idx], hdzui.gameUI(), FRAME_ALIGN_CENTER, FRAME_ALIGN_LEFT_TOP, 0.204, y)
+                frame[kb][idx] = hdzui.frameTag("BUTTON", kb, hdzui.origin.game())
+                hdzui.framePoint(frame[kb][idx], hdzui.origin.game(), FRAME_ALIGN_CENTER, FRAME_ALIGN_LEFT_TOP, 0.204, y)
                 hdzui.frameSize(frame[kb][idx], 0.017, 0.02)
                 hdzui.frameToggle(frame[kb][idx], false)
                 local kt = "txt_attr_" .. k
-                frame[kt][idx] = hdzui.frameTag("TEXT", "txt", hdzui.gameUI())
+                frame[kt][idx] = hdzui.frameTag("TEXT", "txt", hdzui.origin.game())
                 hdzui.framePoint(frame[kt][idx], frame.bg_attr_desc[idx], FRAME_ALIGN_CENTER, FRAME_ALIGN_CENTER, 0, 0)
                 hdzui.frameSize(frame[kt][idx], btn[k].w - 0.02, btn[k].h)
                 hdzui.frameToggle(frame[kt][idx], false)

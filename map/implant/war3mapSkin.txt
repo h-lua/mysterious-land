@@ -1,12 +1,12 @@
 [CustomSkin]
 ChatFont=fonts.ttf
-CommandButtonCooldown=hLua\cd.mdx
+CommandButtonCooldown=hLua\cd\cd.mdx
 EscMenuTextFont=fonts.ttf
 InfoPanelTextFont=fonts.ttf
 MasterFont=fonts.ttf
 MessageFont=fonts.ttf
-PlacementCursor=hLua\spell_area_of_effect_512.blp
-SimpleHpBarConsoleSmall=hLua\hp.blp
+PlacementCursor=hLua\skin\spell_area_of_effect_512.blp
+SimpleHpBarConsoleSmall=hLua\skin\hp.blp
 TextTagFont=fonts.ttf
 [FrameDef]
 AGILITY=敏捷
