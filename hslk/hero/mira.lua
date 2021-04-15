@@ -45,6 +45,6 @@ hslk_hero({
     goldcost = 0,
     lumbercost = 0,
     fused = 0,
+    abilList = string.implode(",", { "AInv", sk1._id }),
     _feature = "典雅之月",
-    _ability = { sk1._id }
 })

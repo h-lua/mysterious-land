@@ -123,8 +123,4 @@ function main()
             stage1()
         end
     )
-
-    htexture.alertCircle(300, -8704, -9216, 10)
-    htexture.alertCircle(600, -7044, -8965, 10)
-
 end

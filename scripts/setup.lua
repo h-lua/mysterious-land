@@ -100,12 +100,6 @@ hevent.onPickHero(function(evtPickData)
             feature = "特性 - " .. feature
             hskill.add(newHero, hslk.n2i(feature))
         end
-        local ability = heroSlk._ability
-        if (ability ~= nil) then
-            for _, a in ipairs(ability) do
-                hskill.add(newHero, a)
-            end
-        end
         hskill.add(newHero, hslk.n2i("武 - 封印"))
         hskill.add(newHero, hslk.n2i("御 - 封印"))
         hskill.add(newHero, hslk.n2i("速 - 封印"))

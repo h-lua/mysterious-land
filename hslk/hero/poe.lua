@@ -29,5 +29,6 @@ hslk_hero({
     goldcost = 0,
     lumbercost = 0,
     fused = 0,
+    abilList = string.implode(",", { "AInv" }),
     _feature = "王权",
 })

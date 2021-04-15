@@ -5,8 +5,8 @@ local features = {
         _remarks = "在月光下行动的精灵使者，灵动而又不惧怕黑暗魔法",
         _attr = {
             attack_speed = "+13",
-            resistance = "+16",
-            natural_dark_oppose = "+10"
+            damage_reduction = "+16",
+            e_dark_oppose = "+10"
         },
     },
     {
@@ -16,13 +16,12 @@ local features = {
         _attr = {
             attack_speed = "+24",
             move = "+20",
-            attack_effect = {
-                {
-                    attr = "knocking",
-                    odds = 20,
-                    percent = 75,
-                },
-            }
+            xtras = {
+                _xtras({
+                    on = CONST_EVENT.attack, action = "targetUnit.spec.knocking",
+                    odds = 20, val = "damage", percent = 75
+                }),
+            },
         },
     },
     {
@@ -50,7 +49,7 @@ local features = {
         Ubertip = "在夜晚每隔30秒自动获得隐身5秒的效果",
         _remarks = "远古神秘的暗夜精灵",
         _attr = {
-            natural_dark = "+30",
+            e_dark_attack = "+30",
         },
     },
 }
