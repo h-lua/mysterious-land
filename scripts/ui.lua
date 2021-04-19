@@ -2,5 +2,6 @@ hdzui.wideScreen()
 hdzui.hideInterface()
 
 UI = function()
-    hdzui.DEMO()
+    local demo = require("scripts.uiDemo")
+    demo.run()
 end
