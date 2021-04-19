@@ -428,7 +428,7 @@ autoWeather = function(obj)
                     )
                     heffect.bindUnit("Environment\\LargeBuildingFire\\LargeBuildingFire0.mdl", enumUnit, "origin", 7)
                     local burn = 300 * game.diff
-                    local oppose = hattr.get(enumUnit, "natural_fire_oppose") or 0
+                    local oppose = hattr.get(enumUnit, "natural_fire_oppose")
                     burn = math.round(burn * (1 - oppose * 0.01))
                     if (burn > 0) then
                         hskill.damageStep({
@@ -455,7 +455,7 @@ autoWeather = function(obj)
                         )
                         heffect.bindUnit("Abilities\\Spells\\Human\\Banish\\BanishTarget.mdl", enumUnit, "origin", 7)
                         local poison = 500 * game.diff
-                        local oppose = hattr.get(enumUnit, "natural_poison_oppose") or 0
+                        local oppose = hattr.get(enumUnit, "natural_poison_oppose")
                         poison = math.round(poison * (1 - oppose * 0.01))
                         if (poison > 0) then
                             hattr.set(enumUnit, 5, {
