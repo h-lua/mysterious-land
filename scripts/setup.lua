@@ -201,8 +201,8 @@ pickCourier = function(newCourier)
     end)
 end
 
---设置三围基础
-hattr.setThreeBuff({
+-- 映射属性
+hattr.setRelation({
     primary = 1,
     str = {
         life = 16,
