@@ -91,8 +91,9 @@ return {
             hjapi.DzFrameSetText(demoCache[t[1]], t[2])
         end
         -- 底部命令区
-        demoCache.main = hdzui.frame("main", demoCache.game)
+        demoCache.main = hdzui.frameTag("BACKDROP", "bg", demoCache.game)
         hdzui.framePoint(demoCache.main, demoCache.game, FRAME_ALIGN_BOTTOM, FRAME_ALIGN_BOTTOM, 0, 0)
+        hjapi.DzFrameSetTexture(demoCache.main, "hLua\\ui\\main_orc.tga", false)
         hjapi.DzFrameSetAlpha(demoCache.main, 240)
         hjapi.DzFrameSetSize(demoCache.main, size_x, size_x * (height / width))
         --- 系统消息框
@@ -132,8 +133,9 @@ return {
             hdzui.framePoint(f, demoCache.main, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_LEFT_TOP, px.item[i].x, px.item[i].y)
             hjapi.DzFrameSetSize(f, px.item[i].w, px.item[i].w)
             hjapi.DzFrameShow(f, true)
-            local block = hdzui.frameTag("BACKDROP", "bg_block", demoCache.main)
+            local block = hdzui.frameTag("BACKDROP", "bg", demoCache.main)
             hdzui.framePoint(block, f, FRAME_ALIGN_CENTER, FRAME_ALIGN_CENTER, 0, 0)
+            hjapi.DzFrameSetTexture(block, "hLua\\ui\\block_orc.tga", false)
             hjapi.DzFrameSetSize(block, px.item[i].w, px.item[i].w)
             hjapi.DzFrameSetAlpha(block, 127)
             table.insert(demoCache.itemSlotBlock, block)
@@ -149,8 +151,9 @@ return {
             hdzui.framePoint(sk, demoCache.main, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_LEFT_TOP, px.skill[i].x, px.skill[i].y)
             hjapi.DzFrameSetSize(sk, px.skill[i].w, px.skill[i].w)
             hjapi.DzFrameShow(sk, true)
-            local block = hdzui.frameTag("BACKDROP", "bg_block", demoCache.main)
+            local block = hdzui.frameTag("BACKDROP", "bg", demoCache.main)
             hdzui.framePoint(block, sk, FRAME_ALIGN_CENTER, FRAME_ALIGN_CENTER, 0, 0)
+            hjapi.DzFrameSetTexture(block, "hLua\\ui\\block_orc.tga", false)
             hjapi.DzFrameSetSize(block, px.skill[i].w, px.skill[i].w)
             hjapi.DzFrameSetAlpha(block, 127)
             table.insert(demoCache.skillSlotBlock, block)
@@ -220,6 +223,16 @@ return {
                             isBarExp = isHero
                             isBarPeriod = isPeriod
                             isBarPunish = isEnPunish
+                            -- sign
+                            if (primary == "STR") then
+                                data.sign = "hLua\\ui\\sign_str.tga"
+                            elseif (primary == "AGI") then
+                                data.sign = "hLua\\ui\\sign_agi.tga"
+                            elseif (primary == "INT") then
+                                data.sign = "hLua\\ui\\sign_int.tga"
+                            else
+                                data.sign = "hLua\\ui\\sign_nor.tga"
+                            end
                             -- 生命
                             local hpc = math.floor(hunit.getCurLife(selection))
                             local hpm = math.floor(hunit.getMaxLife(selection))
@@ -605,6 +618,12 @@ return {
                         hjapi.DzFrameSetText(demoCache.mp, data.mp)
                         hjapi.DzFrameSetText(demoCache.life_back, data.life_back)
                         hjapi.DzFrameSetText(demoCache.mana_back, data.mana_back)
+                        if (isHero) then
+                            hjapi.DzFrameSetTexture(demoCache.info_attr, "hLua\\ui\\info_attr_hero.tga", false)
+                        else
+                            hjapi.DzFrameSetTexture(demoCache.info_attr, "hLua\\ui\\info_attr.tga", false)
+                        end
+                        hjapi.DzFrameSetTexture(demoCache.sign, data.sign, false)
                         hjapi.DzFrameSetText(demoCache.unit_name, data.unit_name)
                         hjapi.DzFrameSetText(demoCache.hero_name, data.hero_name)
                         hjapi.DzFrameSetText(demoCache.reborn, data.reborn)
@@ -677,12 +696,8 @@ return {
                     hjapi.DzFrameShow(demoCache.mp, show)
                     hjapi.DzFrameShow(demoCache.life_back, show)
                     hjapi.DzFrameShow(demoCache.mana_back, show)
-                    hjapi.DzFrameShow(demoCache.info_attr, show and (isHero == false))
-                    hjapi.DzFrameShow(demoCache.info_attr_hero, show and isHero)
-                    hjapi.DzFrameShow(demoCache.sign_str, show and isHero and isStr)
-                    hjapi.DzFrameShow(demoCache.sign_agi, show and isHero and isAgi)
-                    hjapi.DzFrameShow(demoCache.sign_int, show and isHero and isInt)
-                    hjapi.DzFrameShow(demoCache.sign_nor, show and (isHero == false))
+                    hjapi.DzFrameShow(demoCache.info_attr, show)
+                    hjapi.DzFrameShow(demoCache.sign, show)
                     hjapi.DzFrameShow(demoCache.unit_name, show)
                     hjapi.DzFrameShow(demoCache.hero_name, show)
                     hjapi.DzFrameShow(demoCache.reborn, show)
@@ -802,25 +817,13 @@ return {
         hdzui.framePoint(demoCache.mana_back, demoCache.main, FRAME_ALIGN_CENTER, FRAME_ALIGN_LEFT_TOP, px.mp.x + 0.055, px.mp.y - options.mp_y)
         hjapi.DzFrameSetSize(demoCache.mana_back, px.hp.w * 0.3, px.hp.h)
         -- 信息面板
-        demoCache.info_attr = hdzui.frame("bg_info_attr", demoCache.main)
+        demoCache.info_attr = hdzui.frameTag("BACKDROP", "bg", demoCache.main)
         hjapi.DzFrameSetSize(demoCache.info_attr, px.info.w, px.info.h)
         hdzui.framePoint(demoCache.info_attr, demoCache.main, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_LEFT_TOP, px.info.x, px.info.y)
-        demoCache.info_attr_hero = hdzui.frame("bg_info_attr_hero", demoCache.main)
-        hjapi.DzFrameSetSize(demoCache.info_attr_hero, px.info.w, px.info.h)
-        hdzui.framePoint(demoCache.info_attr_hero, demoCache.main, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_LEFT_TOP, px.info.x, px.info.y)
         -- 单位标志
-        demoCache.sign_str = hdzui.frame("bg_sign_str", demoCache.main)
-        demoCache.sign_agi = hdzui.frame("bg_sign_agi", demoCache.main)
-        demoCache.sign_int = hdzui.frame("bg_sign_int", demoCache.main)
-        demoCache.sign_nor = hdzui.frame("bg_sign_nor", demoCache.main)
-        hdzui.framePoint(demoCache.sign_str, demoCache.main, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_LEFT_TOP, px.info.x + 0.0035, px.info.y - 0.006)
-        hdzui.framePoint(demoCache.sign_agi, demoCache.sign_str, FRAME_ALIGN_CENTER, FRAME_ALIGN_CENTER, 0, 0)
-        hdzui.framePoint(demoCache.sign_int, demoCache.sign_str, FRAME_ALIGN_CENTER, FRAME_ALIGN_CENTER, 0, 0)
-        hdzui.framePoint(demoCache.sign_nor, demoCache.sign_str, FRAME_ALIGN_CENTER, FRAME_ALIGN_CENTER, 0, 0)
-        hjapi.DzFrameSetSize(demoCache.sign_str, 0.014, 0.018)
-        hjapi.DzFrameSetSize(demoCache.sign_agi, 0.014, 0.018)
-        hjapi.DzFrameSetSize(demoCache.sign_int, 0.014, 0.018)
-        hjapi.DzFrameSetSize(demoCache.sign_nor, 0.014, 0.018)
+        demoCache.sign = hdzui.frameTag("BACKDROP", "bg", demoCache.main)
+        hdzui.framePoint(demoCache.sign, demoCache.main, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_LEFT_TOP, px.info.x + 0.0035, px.info.y - 0.006)
+        hjapi.DzFrameSetSize(demoCache.sign, 0.014, 0.018)
         -- 单位名称
         demoCache.unit_name = hdzui.frameTag("TEXT", "txt_10l", demoCache.main)
         hdzui.framePoint(demoCache.unit_name, demoCache.main, FRAME_ALIGN_LEFT, FRAME_ALIGN_LEFT_TOP, px.info.x + 0.018, px.info.y - 0.01)
@@ -849,22 +852,22 @@ return {
         demoCache.punish_val = hdzui.frameTag("TEXT", "txt_6l", demoCache.main)
         hdzui.framePoint(demoCache.punish_val, demoCache.punish, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_RIGHT_TOP, 0.002, 0.002)
         -- 条:空1
-        demoCache.bar_e1 = hdzui.frameTag("BACKDROP", "bg_bar", demoCache.main)
+        demoCache.bar_e1 = hdzui.frameTag("BACKDROP", "bg_tile", demoCache.main)
         hdzui.framePoint(demoCache.bar_e1, demoCache.period, FRAME_ALIGN_LEFT_BOTTOM, FRAME_ALIGN_RIGHT_BOTTOM, 0.002, 0)
         hjapi.DzFrameSetTexture(demoCache.bar_e1, "ReplaceableTextures\\TeamColor\\TeamColor08.blp", false)
         hjapi.DzFrameSetSize(demoCache.bar_e1, bar_len, 0.002)
         -- 条:空2
-        demoCache.bar_e2 = hdzui.frameTag("BACKDROP", "bg_bar", demoCache.main)
+        demoCache.bar_e2 = hdzui.frameTag("BACKDROP", "bg_tile", demoCache.main)
         hdzui.framePoint(demoCache.bar_e2, demoCache.punish, FRAME_ALIGN_LEFT_BOTTOM, FRAME_ALIGN_RIGHT_BOTTOM, 0.002, 0)
         hjapi.DzFrameSetTexture(demoCache.bar_e2, "ReplaceableTextures\\TeamColor\\TeamColor08.blp", false)
         hjapi.DzFrameSetSize(demoCache.bar_e2, bar_len, 0.002)
         -- 条:存在周期
-        demoCache.bar_period = hdzui.frameTag("BACKDROP", "bg_bar", demoCache.main)
+        demoCache.bar_period = hdzui.frameTag("BACKDROP", "bg_tile", demoCache.main)
         hdzui.framePoint(demoCache.bar_period, demoCache.bar_e1, FRAME_ALIGN_LEFT, FRAME_ALIGN_LEFT, 0, 0)
         hjapi.DzFrameSetTexture(demoCache.bar_period, "ReplaceableTextures\\TeamColor\\TeamColor06.blp", false)
         hjapi.DzFrameSetSize(demoCache.bar_period, bar_len, 0.002)
         -- 条:经验
-        demoCache.bar_exp = hdzui.frameTag("BACKDROP", "bg_bar", demoCache.main)
+        demoCache.bar_exp = hdzui.frameTag("BACKDROP", "bg_tile", demoCache.main)
         hdzui.framePoint(demoCache.bar_exp, demoCache.bar_e1, FRAME_ALIGN_LEFT, FRAME_ALIGN_LEFT, 0, 0)
         hjapi.DzFrameSetTexture(demoCache.bar_exp, "ReplaceableTextures\\TeamColor\\TeamColor09.blp", false)
         hjapi.DzFrameSetSize(demoCache.bar_exp, bar_len, 0.002)
@@ -872,7 +875,7 @@ return {
         demoCache.exp_ratio = hdzui.frameTag("TEXT", "txt_6l", demoCache.main)
         hdzui.framePoint(demoCache.exp_ratio, demoCache.bar_e1, FRAME_ALIGN_RIGHT_BOTTOM, FRAME_ALIGN_RIGHT_TOP, 0, 0.002)
         -- 条:硬直
-        demoCache.bar_punish = hdzui.frameTag("BACKDROP", "bg_bar", demoCache.main)
+        demoCache.bar_punish = hdzui.frameTag("BACKDROP", "bg_tile", demoCache.main)
         hdzui.framePoint(demoCache.bar_punish, demoCache.bar_e2, FRAME_ALIGN_LEFT, FRAME_ALIGN_LEFT, 0, 0)
         hjapi.DzFrameSetTexture(demoCache.bar_punish, "ReplaceableTextures\\TeamColor\\TeamColor04.blp", false)
         hjapi.DzFrameSetSize(demoCache.bar_punish, bar_len, 0.002)
@@ -965,13 +968,13 @@ return {
         demoCache.target = hdzui.frameTag("BACKDROP", "bg_bar_target", demoCache.game)
         hdzui.framePoint(demoCache.target, demoCache.game, FRAME_ALIGN_CENTER, FRAME_ALIGN_TOP, 0, -0.04)
         hjapi.DzFrameSetSize(demoCache.target, 0.24, 0.03)
-        demoCache.target_ava = hdzui.frameTag("BACKDROP", "bg_bar_avatar", demoCache.game)
+        demoCache.target_ava = hdzui.frameTag("BACKDROP", "bg", demoCache.game)
         hdzui.framePoint(demoCache.target_ava, demoCache.target, FRAME_ALIGN_LEFT, FRAME_ALIGN_LEFT, 0.002, 0)
         hjapi.DzFrameSetSize(demoCache.target_ava, 0.02, 0.023)
-        demoCache.target_val1 = hdzui.frameTag("BACKDROP", "bg_bar", demoCache.target)
+        demoCache.target_val1 = hdzui.frameTag("BACKDROP", "bg_tile", demoCache.target)
         hdzui.framePoint(demoCache.target_val1, demoCache.target, FRAME_ALIGN_LEFT, FRAME_ALIGN_LEFT, 0.0236, 0)
         hjapi.DzFrameSetSize(demoCache.target_val1, 0.2126, 0.022)
-        demoCache.target_val2 = hdzui.frameTag("BACKDROP", "bg_bar", demoCache.target)
+        demoCache.target_val2 = hdzui.frameTag("BACKDROP", "bg_tile", demoCache.target)
         hdzui.framePoint(demoCache.target_val2, demoCache.target, FRAME_ALIGN_LEFT, FRAME_ALIGN_LEFT, 0.0236, 0)
         hjapi.DzFrameSetSize(demoCache.target_val2, 0.2126, 0.022)
         demoCache.target_tl = hdzui.frameTag("TEXT", "txt_12l", demoCache.game)
