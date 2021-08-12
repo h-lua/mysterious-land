@@ -76,6 +76,7 @@ return {
         }
         --
         demoCache.game = hdzui.origin.game()
+        demoCache.tips = {}
         -- 设置
         local txt = {
             { "F8", "F8  空闲信使" },
@@ -564,9 +565,11 @@ return {
                             end
                             local w = maxLen * 0.007 + offsetLen
                             local h = #s * 0.010 + 0.025
-                            cj.SaveStr(cg.hLuaDemoHash, idx, i, string.implode("|n", s))
-                            cj.SaveReal(cg.hLuaDemoHash, idx, 20 + i, w)
-                            cj.SaveReal(cg.hLuaDemoHash, idx, 30 + i, h)
+                            demoCache.tips[i] = {
+                                content = string.implode("|n", s),
+                                width = w,
+                                height = h,
+                            }
                         end
                     end
                     -- 目标数据
@@ -982,24 +985,30 @@ return {
         demoCache.target_tr = hdzui.frameTag("TEXT", "txt_12r", demoCache.game)
         hdzui.framePoint(demoCache.target_tr, demoCache.target, FRAME_ALIGN_RIGHT, FRAME_ALIGN_RIGHT, -0.006, 0)
         -- 右侧展开属性
-        demoCache.more_tip = hdzui.frameTag("BACKDROP", "bg_tooltip", hdzui.origin.game())
-        hdzui.framePoint(demoCache.more_tip, hdzui.origin.game(), FRAME_ALIGN_LEFT_BOTTOM, FRAME_ALIGN_BOTTOM, 0.088, 0.002)
+        demoCache.more_tip = hdzui.frameTag("BACKDROP", "bg_tooltip", demoCache.game)
+        hdzui.framePoint(demoCache.more_tip, demoCache.game, FRAME_ALIGN_LEFT_BOTTOM, FRAME_ALIGN_BOTTOM, 0.088, 0.002)
         hjapi.DzFrameSetSize(demoCache.more_tip, 0.1, 0.1)
         hjapi.DzFrameShow(demoCache.more_tip, false)
-        demoCache.more_txt = hdzui.frameTag("TEXT", "txt_10l", hdzui.origin.game())
+        demoCache.more_txt = hdzui.frameTag("TEXT", "txt_10l", demoCache.game)
         hdzui.framePoint(demoCache.more_txt, demoCache.more_tip, FRAME_ALIGN_CENTER, FRAME_ALIGN_CENTER, 0, 0)
         hjapi.DzFrameShow(demoCache.more_txt, false)
-        cg.hLuaDemoMoreTip = demoCache.more_tip
-        cg.hLuaDemoMoreTxt = demoCache.more_txt
         for i, b in ipairs(moreBtns) do
             local bk = "btn_" .. b
-            demoCache[bk] = hdzui.frameTag("BUTTON", bk, hdzui.origin.game())
+            demoCache[bk] = hdzui.frameTag("BUTTON", bk, demoCache.game)
             hdzui.framePoint(demoCache[bk], demoCache.main, FRAME_ALIGN_LEFT, FRAME_ALIGN_CENTER, 0.074, -(i - 1) * 0.015)
             hjapi.DzFrameSetSize(demoCache[bk], 0.010, 0.012)
             hplayer.forEach(function(enumPlayer, idx)
-                cj.SaveInteger(cg.hLuaDemoHash, demoCache[bk], idx, i)
-                hdzui.onMouse(demoCache[bk], MOUSE_ORDER_ENTER, "hLuaDemoMoreEnter", enumPlayer)
-                hdzui.onMouse(demoCache[bk], MOUSE_ORDER_LEAVE, "hLuaDemoMoreLeave", enumPlayer)
+                hdzui.onMouse(demoCache[bk], MOUSE_ORDER_ENTER, function()
+                    hjapi.DzFrameSetSize(demoCache.more_tip, demoCache.tips[i].width, demoCache.tips[i].height)
+                    hjapi.DzFrameSetPoint(demoCache.more_tip, FRAME_ALIGN_LEFT_BOTTOM, demoCache.game, 7, 0.088, 0.07 - i * 0.015)
+                    hjapi.DzFrameSetText(demoCache.more_txt, demoCache.tips[i].content)
+                    hjapi.DzFrameShow(demoCache.more_tip, true)
+                    hjapi.DzFrameShow(demoCache.more_txt, true)
+                end)
+                hdzui.onMouse(demoCache[bk], MOUSE_ORDER_LEAVE, function()
+                    hjapi.DzFrameShow(demoCache.more_tip, false)
+                    hjapi.DzFrameShow(demoCache.more_txt, false)
+                end)
             end)
         end
         -- UI展示
