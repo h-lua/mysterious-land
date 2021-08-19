@@ -111,7 +111,7 @@ stage1 = function()
             stage_ttg(boss, "敢硬闯?!")
         end
     end)
-    hevent.onDestructableDestroy(cg.gg_dest_DTg7_0109, function(evtData)
+    hevent.onDestructableDestroy(JassGlobals.gg_dest_DTg7_0109, function(evtData)
         henv.delDestructable(evtData.triggerDestructable)
         if (his.alive(boss)) then
             hunit.kill(boss, 0)
