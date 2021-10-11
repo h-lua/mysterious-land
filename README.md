@@ -15,5 +15,5 @@ git clone https://github.com/hunzsig-warcraft3/h-lua-sdk-mysterious-land.git
 
 ### 测试！
 ```
-sdk.exe -t h-lua-sdk-mysterious-land
+sdk.exe test h-lua-sdk-mysterious-land
 ```
