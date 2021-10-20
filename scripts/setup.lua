@@ -72,7 +72,7 @@ hevent_default_actions.hero.reborn = function(u, rebornSec)
             timeScale = 10 / rebornSec,
         })
     end
-    hhero.reborn(u, rebornSec, 1, x, y, true)
+    hhero.reborn(u, rebornSec, 1, x, y)
 end
 
 --- 英雄被选择
