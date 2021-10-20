@@ -52,7 +52,7 @@ function main()
     echo("^_^ 您来到了秘境，请选择" .. hcolor.yellow("你的英雄"))
     -- 可破坏物
     htime.setTimeout(10, function(curTimer)
-        htime.delTimer(curTimer)
+        curTimer.destroy()
         onMapDestructableDestroy()
     end)
     -- 玩家配置

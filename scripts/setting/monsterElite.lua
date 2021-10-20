@@ -35,7 +35,7 @@ monsterElite = {
 -- 自动生成精英怪
 autoMonsterElite = function(delay)
     htime.setTimeout(delay, function(curTimer)
-        htime.delTimer(curTimer)
+        curTimer.destroy()
         if (monsterEliteAutoCount > 20) then
             autoMonsterElite(30)
             return
@@ -56,10 +56,10 @@ autoMonsterElite = function(delay)
             cj.PingMinimapEx(m.loc[1], m.loc[2], 3.00, 255, 0, 0, true)
             htime.setInterval(3, function(curTimer2)
                 if (w >= 2) then
-                    htime.delTimer(curTimer2)
+                    curTimer2.destroy()
                     monsterEliteAutoCount = monsterEliteAutoCount - 1
                     htime.setTimeout(90, function(curTimer3)
-                        htime.delTimer(curTimer3)
+                        curTimer3.destroy()
                         m.creating = false
                     end)
                     return
@@ -87,7 +87,7 @@ autoMonsterElite = function(delay)
                         hattr.set(u, 0, attr)
                         hevent.onDead(u, onEliteAward)
                         htime.setTimeout(180, function(normalTimer)
-                            htime.delTimer(normalTimer)
+                            normalTimer.destroy()
                             if (his.alive(u)) then
                                 cj.IssuePointOrder(u, "attack", hunit.x(game.sevenStone), hunit.y(game.sevenStone))
                             end

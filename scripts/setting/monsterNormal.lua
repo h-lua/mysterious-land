@@ -504,7 +504,7 @@ monsterNormal = {
 -- 自动生成怪物
 autoMonsterNormal = function(delay)
     htime.setTimeout(delay, function(curTimer)
-        htime.delTimer(curTimer)
+        curTimer.destroy()
         if (monsterNormalAutoCount > 40) then
             autoMonsterNormal(10)
             return
@@ -525,10 +525,10 @@ autoMonsterNormal = function(delay)
             cj.PingMinimapEx(m.loc[1], m.loc[2], 3.00, 255, 0, 0, true)
             htime.setInterval(2, function(curTimer2)
                 if (w >= 3) then
-                    htime.delTimer(curTimer2)
+                    curTimer2.destroy()
                     monsterNormalAutoCount = monsterNormalAutoCount - 1
                     htime.setTimeout(30, function(curTimer3)
-                        htime.delTimer(curTimer3)
+                        curTimer3.destroy()
                         m.creating = false
                     end)
                     return

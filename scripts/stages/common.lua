@@ -52,7 +52,7 @@ stage_spell = function(whichUnit, message, cd, animate, ready, call)
         hattr.set(whichUnit, 3, { move = "+200" })
     end
     htime.setTimeout(1.75, function(curTimer2)
-        htime.delTimer(curTimer2)
+        curTimer2.destroy()
         local cdIng = hcache.get(whichUnit, message .. cd, false)
         if (cdIng == true) then
             return
@@ -60,7 +60,7 @@ stage_spell = function(whichUnit, message, cd, animate, ready, call)
         if (cdIng == nil) then
             hcache.set(whichUnit, message .. cd, true)
             htime.setTimeout(cd, function(curTimer)
-                htime.delTimer(curTimer)
+                curTimer.destroy()
                 hcache.set(whichUnit, message .. cd, nil)
             end)
         end
@@ -73,7 +73,7 @@ stage_spell = function(whichUnit, message, cd, animate, ready, call)
             move = "-522"
         })
         htime.setTimeout(stage_holdOn(), function(curTimer)
-            htime.delTimer(curTimer)
+            curTimer.destroy()
             if (his.alive(whichUnit)) then
                 call()
             end

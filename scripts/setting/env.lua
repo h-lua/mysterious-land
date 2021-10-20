@@ -121,7 +121,7 @@ autoWeather = function(obj)
         local which = obj.allowWeather[math.random(1, #obj.allowWeather)]
         local weather = which.weather
         if (weather == "time") then
-            if (his.day()) then
+            if (htime.isDay()) then
                 during = (18 - cj.GetFloatGameState(GAME_STATE_TIME_OF_DAY)) * 20
                 weather = hweather.sun
             else
@@ -153,7 +153,7 @@ autoWeather = function(obj)
         htime.setInterval(4, function(t)
             dur = dur + 4
             if (dur >= during) then
-                htime.delTimer(t)
+                t.destroy()
                 autoWeather(obj)
                 return
             end
@@ -239,13 +239,13 @@ autoWeather = function(obj)
                 -- 雷暴
                 for i = 1, (4 + game.diff) do
                     htime.setTimeout(i * 0.1, function(ti)
-                        htime.delTimer(ti)
+                        ti.destroy()
                         local x = math.random(hrect.getMinX(obj.rect), hrect.getMaxX(obj.rect))
                         local y = math.random(hrect.getMinY(obj.rect), hrect.getMaxY(obj.rect))
                         local radius = 120 + 10 * game.diff
                         htexture.alertCircle(radius * 2, x, y, 2)
                         htime.setTimeout(2, function(tl)
-                            htime.delTimer(tl)
+                            tl.destroy()
                             heffect.toXY("Abilities\\Spells\\Other\\Monsoon\\MonsoonBoltTarget.mdl", x, y)
                             local g2 = hgroup.createByXY(x, y, radius, function(filterUnit)
                                 return his.hero(filterUnit) and his.alive(filterUnit)
@@ -391,14 +391,14 @@ autoWeather = function(obj)
                 -- 陨石
                 for i = 1, (3 + game.diff) do
                     htime.setTimeout(i * 0.1, function(ti)
-                        htime.delTimer(ti)
+                        ti.destroy()
                         local x = math.random(hrect.getMinX(obj.rect), hrect.getMaxX(obj.rect))
                         local y = math.random(hrect.getMinY(obj.rect), hrect.getMaxY(obj.rect))
                         local radius = 180 + 10 * game.diff
                         htexture.alertCircle(radius * 2, x, y, 2)
                         heffect.toXY("Units\\Demon\\Infernal\\InfernalBirth.mdl", x, y)
                         htime.setTimeout(0.8, function(tl)
-                            htime.delTimer(tl)
+                            tl.destroy()
                             local g2 = hgroup.createByXY(x, y, radius, function(filterUnit)
                                 return his.hero(filterUnit) and his.alive(filterUnit)
                             end)
@@ -489,13 +489,13 @@ autoWeather = function(obj)
                 -- 紫光爆炸
                 for i = 1, (6 + game.diff) do
                     htime.setTimeout(i * 0.3, function(ti)
-                        htime.delTimer(ti)
+                        ti.destroy()
                         local x = math.random(hrect.getMinX(obj.rect), hrect.getMaxX(obj.rect))
                         local y = math.random(hrect.getMinY(obj.rect), hrect.getMaxY(obj.rect))
                         local radius = 150 + 10 * game.diff
                         htexture.alertCircle(radius * 2, x, y, 2)
                         htime.setTimeout(2, function(tl)
-                            htime.delTimer(tl)
+                            tl.destroy()
                             heffect.toXY("Objects\\Spawnmodels\\Undead\\UndeadDissipate\\UndeadDissipate.mdl", x, y)
                             local g2 = hgroup.createByXY(x, y, radius, function(filterUnit)
                                 return his.hero(filterUnit) and his.alive(filterUnit)
@@ -534,7 +534,7 @@ for _, v in ipairs(islands) do
     end
     -- 天气
     htime.setTimeout(math.random(20, 30), function(t)
-        htime.delTimer(t)
+        t.destroy()
         autoWeather(v)
     end)
     -- 海域
