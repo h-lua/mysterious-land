@@ -114,7 +114,7 @@ hevent.onPickHero(function(evtPickData)
         haward.forUnitExp(evtData.triggerUnit, exp)
     end)
     -- dz奖励
-    local mapLv = hdzapi.mapLevel(owner)
+    local mapLv = math.max(1, hjapi.DzAPI_Map_GetMapLevel(owner) or 1)
     if (mapLv > 9) then
         hitem.create({
             id = hslk.n2i("初始月钥-Max"),

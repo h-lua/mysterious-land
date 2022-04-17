@@ -19,7 +19,6 @@ return {
         options.mp_y = options.mp_y or 0.0038
         --
         cj.FogMaskEnable(false)
-        hdzui.loadToc("UI\\frame.toc")
         local width = 3200
         local height = 640
         local size_x = 0.8
@@ -75,7 +74,7 @@ return {
             },
         }
         --
-        demoCache.game = hdzui.origin.game()
+        demoCache.game = hjapi.DzGetGameUI()
         demoCache.tips = {}
         -- 设置
         local txt = {
