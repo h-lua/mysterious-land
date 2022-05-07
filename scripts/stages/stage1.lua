@@ -41,7 +41,7 @@ stage1 = function()
     --
     hevent.onAttack(boss, function(evtData)
         stage_ttg(evtData.triggerUnit, "越战越强")
-        heffect.bindUnit("Abilities\\Spells\\Other\\BreathOfFire\\BreathOfFireDamage.mdl", evtData.triggerUnit, "weapon", 3)
+        heffect.attach("Abilities\\Spells\\Other\\BreathOfFire\\BreathOfFireDamage.mdl", evtData.triggerUnit, "weapon", 3)
         hattr.set(evtData.triggerUnit, 3, {
             attack_white = "+" .. math.floor(hattr.get(evtData.triggerUnit, "attack_white") * 0.2),
             move = "+5",

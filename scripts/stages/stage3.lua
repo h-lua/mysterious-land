@@ -108,7 +108,7 @@ stage3 = function()
                     local hero = hhero.player_heroes[i][1]
                     if (math.getDistanceBetweenUnit(fire, hero) <= 700) then
                         hattr.set(hero, 2, { life_back = "+60" })
-                        heffect.bindUnit(
+                        heffect.attach(
                             "Abilities\\Spells\\Human\\Heal\\HealTarget.mdl",
                             hero, "origin", 1.5
                         )

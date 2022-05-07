@@ -8,21 +8,6 @@ hcmd.conf({ "-gg", "-apm", "-random", "-repick", "-d" }, { 1 })
 -- 设定敌军
 henemy.set("怪物", PLAYER_COLOR_BLACK, { 8, 9, 10, 11 })
 
---- 设定获得黄金木头特效
-hevent.onPlayerResourceChange(function(evtData)
-    if (evtData.triggerUnit ~= nil and evtData.value > 0) then
-        local u = evtData.triggerUnit
-        local val = math.floor(evtData.value)
-        if (evtData.type == 'gold') then
-            htextTag.style(htextTag.create2Unit(u, "+" .. val .. " 万担金", 6, "ffcc00", 1, 1.70, 60.00), "toggle", 0, 0.20)
-            hsound.voice2Unit(SOUND.voice_ReceiveGold, 100, u)
-        elseif (evtData.type == 'lumber') then
-            htextTag.style(htextTag.create2Unit(u, "+" .. val .. " 精选木", 7, "80ff80", 1, 1.70, 60.00), "toggle", 0, 0.20)
-            hsound.voice2Unit(SOUND.voice_BundleOfLumber, 100, u)
-        end
-    end
-end)
-
 hevent_default_actions.hero.reborn = function(u, rebornSec)
     local p = hunit.getOwner(u)
     if (game.rebornQty <= 0) then
@@ -106,7 +91,6 @@ hevent.onPickHero(function(evtPickData)
     --- 升级
     hevent.onLevelUp(newHero, function(evtData)
         local primary = hhero.getPrimary(evtData.triggerUnit)
-        print("primary", primary)
     end)
     --- 经验收获
     hevent.onDamage(newHero, function(evtData)
