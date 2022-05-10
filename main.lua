@@ -9,7 +9,6 @@ require "scripts.ui" -- UI
 
 -- 加载本地图的设置
 require "scripts.setting.global"
-require "scripts.setting.dz"
 -- 设定友军
 game.ALLY_PLAYER = hplayer.players[12]
 require "scripts.setting.f9"
@@ -36,7 +35,6 @@ function main()
         if (his.playing(hplayer.players[i])) then
             -- 称号
             hplayer.setPrestige(hplayer.players[i], "冒险者")
-            dzCurrent.enableRecord(hplayer.players[i])
         end
     end
 

@@ -85,89 +85,112 @@ return {
             { "F12", "F12 消息" },
         }
         for i, t in ipairs(txt) do
-            demoCache[t[1]] = hdzui.frameTag("TEXT", "txt_10l", demoCache.game)
-            hdzui.framePoint(demoCache[t[1]], demoCache.game, FRAME_ALIGN_LEFT_BOTTOM, FRAME_ALIGN_RIGHT_BOTTOM, -0.052, 0.088 - (i - 1) * 0.016)
+            demoCache[t[1]] = hjapi.FrameTag("TEXT", "txt_10l", demoCache.game)
+            hjapi.FrameRelation(demoCache[t[1]], FRAME_ALIGN_LEFT_BOTTOM, demoCache.game, FRAME_ALIGN_RIGHT_BOTTOM, -0.052, 0.088 - (i - 1) * 0.016)
             hjapi.DzFrameSetSize(demoCache[t[1]], 0.06, 0.016)
             hjapi.DzFrameSetText(demoCache[t[1]], t[2])
         end
         -- 底部命令区
-        demoCache.main = hdzui.frameTag("BACKDROP", "bg", demoCache.game)
-        hdzui.framePoint(demoCache.main, demoCache.game, FRAME_ALIGN_BOTTOM, FRAME_ALIGN_BOTTOM, 0, 0)
+        demoCache.main = hjapi.FrameTag("BACKDROP", "bg", demoCache.game)
+        hjapi.FrameRelation(demoCache.main, FRAME_ALIGN_BOTTOM, demoCache.game, FRAME_ALIGN_BOTTOM, 0, 0)
         hjapi.DzFrameSetTexture(demoCache.main, "hLua\\ui\\main_orc.tga", false)
         hjapi.DzFrameSetAlpha(demoCache.main, 240)
         hjapi.DzFrameSetSize(demoCache.main, size_x, size_x * (height / width))
         --- 系统消息框
-        demoCache.unitMessage = hdzui.origin.unitMessage()
-        hdzui.framePoint(demoCache.unitMessage, demoCache.main, FRAME_ALIGN_LEFT_BOTTOM, FRAME_ALIGN_LEFT_TOP, px.minMapBtn[1].x - 0.01, -0.018)
+        demoCache.unitMessage = hjapi.DzFrameGetUnitMessage()
+        hjapi.FrameRelation(demoCache.unitMessage, FRAME_ALIGN_LEFT_BOTTOM, demoCache.main, FRAME_ALIGN_LEFT_TOP, px.minMapBtn[1].x - 0.01, -0.018)
         hjapi.DzFrameSetSize(demoCache.unitMessage, 0.2, 0.1)
         hjapi.DzFrameShow(demoCache.unitMessage, true)
         --- 上方消息框
-        demoCache.topMessage = hdzui.origin.topMessage()
-        hdzui.framePoint(demoCache.topMessage, demoCache.game, FRAME_ALIGN_TOP, FRAME_ALIGN_TOP, 0, -0.04)
+        demoCache.topMessage = hjapi.DzFrameGetTopMessage()
+        hjapi.FrameRelation(demoCache.topMessage, FRAME_ALIGN_TOP, demoCache.game, FRAME_ALIGN_TOP, 0, -0.04)
         hjapi.DzFrameShow(demoCache.topMessage, true)
         -- 小地图
-        demoCache.minMap = hdzui.origin.miniMap()
-        hdzui.framePoint(demoCache.minMap, demoCache.main, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_LEFT_TOP, px.minMap.x, px.minMap.y)
+        demoCache.minMap = hjapi.DzFrameGetMinimap()
+        hjapi.FrameRelation(demoCache.minMap, FRAME_ALIGN_LEFT_TOP, demoCache.main, FRAME_ALIGN_LEFT_TOP, px.minMap.x, px.minMap.y)
         hjapi.DzFrameSetSize(demoCache.minMap, px.minMap.w, px.minMap.h)
         -- 小地图按钮
-        demoCache.minMapBtn = hdzui.origin.miniMapBtn()
-        for i, f in ipairs(demoCache.minMapBtn) do
-            hdzui.framePoint(f, demoCache.main, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_LEFT_TOP, px.minMapBtn[i].x, px.minMapBtn[i].y)
+        for i = 1, 5 do
+            local f = hjapi.DzFrameGetMinimapButton(i - 1)
+            hjapi.FrameRelation(f, FRAME_ALIGN_LEFT_TOP, demoCache.main, FRAME_ALIGN_LEFT_TOP, px.minMapBtn[i].x, px.minMapBtn[i].y)
             hjapi.DzFrameShow(f, true)
             hjapi.DzFrameSetSize(f, px.minMapBtn[i].w, px.minMapBtn[i].h)
         end
         --- 单位大头像
-        demoCache.portrait = hdzui.origin.portrait()
-        hdzui.framePoint(demoCache.portrait, demoCache.main, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_LEFT_TOP, px.portrait.x, px.portrait.y)
+        demoCache.portrait = hjapi.DzFrameGetPortrait()
+        hjapi.FrameRelation(demoCache.portrait, FRAME_ALIGN_LEFT_TOP, demoCache.main, FRAME_ALIGN_LEFT_TOP, px.portrait.x, px.portrait.y)
         hjapi.DzFrameShow(demoCache.portrait, true)
         hjapi.DzFrameSetSize(demoCache.portrait, px.portrait.w, px.portrait.h)
         --- 聊天消息
-        demoCache.chatMessage = hdzui.origin.chatMessage()
-        hdzui.framePoint(demoCache.chatMessage, demoCache.main, FRAME_ALIGN_BOTTOM, FRAME_ALIGN_TOP, 0, 0.014)
+        demoCache.chatMessage = hjapi.DzFrameGetChatMessage()
+        hjapi.FrameRelation(demoCache.chatMessage, FRAME_ALIGN_BOTTOM, demoCache.main, FRAME_ALIGN_TOP, 0, 0.014)
         hjapi.DzFrameSetSize(demoCache.chatMessage, 0.21, 0.2)
         hjapi.DzFrameShow(demoCache.chatMessage, true)
         --- 物品栏
-        demoCache.itemSlot = hdzui.origin.itemSlot()
+        demoCache.itemSlot = {}
+        for i = 0, 5 do
+            table.insert(demoCache.itemSlot, hjapi.DzFrameGetItemBarButton(i))
+        end
         demoCache.itemSlotBlock = {}
         for i, f in ipairs(demoCache.itemSlot) do
-            hdzui.framePoint(f, demoCache.main, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_LEFT_TOP, px.item[i].x, px.item[i].y)
+            hjapi.FrameRelation(f, FRAME_ALIGN_LEFT_TOP, demoCache.main, FRAME_ALIGN_LEFT_TOP, px.item[i].x, px.item[i].y)
             hjapi.DzFrameSetSize(f, px.item[i].w, px.item[i].w)
             hjapi.DzFrameShow(f, true)
-            local block = hdzui.frameTag("BACKDROP", "bg", demoCache.main)
-            hdzui.framePoint(block, f, FRAME_ALIGN_CENTER, FRAME_ALIGN_CENTER, 0, 0)
+            local block = hjapi.FrameTag("BACKDROP", "bg", demoCache.main)
+            hjapi.FrameRelation(block, FRAME_ALIGN_CENTER, f, FRAME_ALIGN_CENTER, 0, 0)
             hjapi.DzFrameSetTexture(block, "hLua\\ui\\block_orc.tga", false)
             hjapi.DzFrameSetSize(block, px.item[i].w, px.item[i].w)
             hjapi.DzFrameSetAlpha(block, 127)
             table.insert(demoCache.itemSlotBlock, block)
         end
         --- 鼠标提示
-        demoCache.tooltip = hdzui.origin.tooltip()
-        hdzui.framePoint(demoCache.tooltip, demoCache.itemSlot[1], FRAME_ALIGN_LEFT_BOTTOM, FRAME_ALIGN_LEFT_TOP, -0.002, 0.06)
+        demoCache.tooltip = hjapi.DzFrameGetTooltip()
+        hjapi.FrameRelation(demoCache.tooltip, FRAME_ALIGN_LEFT_BOTTOM, demoCache.itemSlot[1], FRAME_ALIGN_LEFT_TOP, -0.002, 0.06)
         hjapi.DzFrameShow(demoCache.tooltip, true)
         --- 技能栏
-        demoCache.skillSlot = hdzui.origin.skill()
+        demoCache.skillSlot = {
+            hjapi.DzFrameGetCommandBarButton(0, 0), -- (0,0)
+            hjapi.DzFrameGetCommandBarButton(0, 1), -- (1,0)
+            hjapi.DzFrameGetCommandBarButton(0, 2), -- (2,0)
+            hjapi.DzFrameGetCommandBarButton(0, 3), -- (3,0)
+            hjapi.DzFrameGetCommandBarButton(1, 0), -- (0,1)
+            hjapi.DzFrameGetCommandBarButton(1, 1), -- (1,1)
+            hjapi.DzFrameGetCommandBarButton(1, 2), -- (2,1)
+            hjapi.DzFrameGetCommandBarButton(1, 3), -- (3,1)
+            hjapi.DzFrameGetCommandBarButton(2, 0), -- (0,2)
+            hjapi.DzFrameGetCommandBarButton(2, 1), -- (1,2)
+            hjapi.DzFrameGetCommandBarButton(2, 2), -- (2,2)
+            hjapi.DzFrameGetCommandBarButton(2, 3), -- (3,2)
+        }
         demoCache.skillSlotBlock = {}
         for i, sk in ipairs(demoCache.skillSlot) do
-            hdzui.framePoint(sk, demoCache.main, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_LEFT_TOP, px.skill[i].x, px.skill[i].y)
+            hjapi.FrameRelation(sk, FRAME_ALIGN_LEFT_TOP, demoCache.main, FRAME_ALIGN_LEFT_TOP, px.skill[i].x, px.skill[i].y)
             hjapi.DzFrameSetSize(sk, px.skill[i].w, px.skill[i].w)
             hjapi.DzFrameShow(sk, true)
-            local block = hdzui.frameTag("BACKDROP", "bg", demoCache.main)
-            hdzui.framePoint(block, sk, FRAME_ALIGN_CENTER, FRAME_ALIGN_CENTER, 0, 0)
+            local block = hjapi.FrameTag("BACKDROP", "bg", demoCache.main)
+            hjapi.FrameRelation(block, FRAME_ALIGN_CENTER, sk, FRAME_ALIGN_CENTER, 0, 0)
             hjapi.DzFrameSetTexture(block, "hLua\\ui\\block_orc.tga", false)
             hjapi.DzFrameSetSize(block, px.skill[i].w, px.skill[i].w)
             hjapi.DzFrameSetAlpha(block, 127)
             table.insert(demoCache.skillSlotBlock, block)
         end
         --- 英雄栏
-        demoCache.hero = hdzui.origin.hero()
+        demoCache.hero = {}
+        for i = 0, 6 do
+            table.insert(demoCache.hero, {
+                avatar = hjapi.DzFrameGetHeroBarButton(i),
+                hp = hjapi.DzFrameGetHeroHPBar(i),
+                mp = hjapi.DzFrameGetHeroManaBar(i),
+            })
+        end
         local hx = px.info.x - 0.002
         local d = 0.024
         for _, h in ipairs(demoCache.hero) do
-            hdzui.framePoint(h.avatar, demoCache.main, FRAME_ALIGN_LEFT_BOTTOM, FRAME_ALIGN_LEFT_TOP, hx, -0.016)
+            hjapi.FrameRelation(h.avatar, FRAME_ALIGN_LEFT_BOTTOM, demoCache.main, FRAME_ALIGN_LEFT_TOP, hx, -0.016)
             hjapi.DzFrameSetSize(h.avatar, d, d)
-            hdzui.framePoint(h.hp, h.avatar, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_LEFT_BOTTOM, 0.001, 0)
+            hjapi.FrameRelation(h.hp, FRAME_ALIGN_LEFT_TOP, h.avatar, FRAME_ALIGN_LEFT_BOTTOM, 0.001, 0)
             hjapi.DzFrameSetSize(h.hp, d - 0.002, d * 0.06)
-            hdzui.framePoint(h.mp, h.hp, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_LEFT_BOTTOM, 0, 0)
+            hjapi.FrameRelation(h.mp, FRAME_ALIGN_LEFT_TOP, h.hp, FRAME_ALIGN_LEFT_BOTTOM, 0, 0)
             hjapi.DzFrameSetSize(h.mp, d - 0.002, d * 0.06)
             hx = hx + d + 0.002
         end
@@ -619,211 +642,211 @@ return {
             end)
         end
         -- 黄金
-        demoCache.gold = hdzui.frameTag("TEXT", "txt_10l", demoCache.main)
-        hdzui.framePoint(demoCache.gold, demoCache.main, FRAME_ALIGN_LEFT, FRAME_ALIGN_LEFT_TOP, px.resource.x + 0.014, px.resource.y - 0.0055)
+        demoCache.gold = hjapi.FrameTag("TEXT", "txt_10l", demoCache.main)
+        hjapi.FrameRelation(demoCache.gold, FRAME_ALIGN_LEFT, demoCache.main, FRAME_ALIGN_LEFT_TOP, px.resource.x + 0.014, px.resource.y - 0.0055)
         hjapi.DzFrameSetSize(demoCache.gold, 0.05, 0.02)
         -- 黄金率
-        demoCache.gold_ratio = hdzui.frameTag("TEXT", "txt_8l", demoCache.main)
-        hdzui.framePoint(demoCache.gold_ratio, demoCache.gold, FRAME_ALIGN_LEFT, FRAME_ALIGN_RIGHT, 0, 0)
+        demoCache.gold_ratio = hjapi.FrameTag("TEXT", "txt_8l", demoCache.main)
+        hjapi.FrameRelation(demoCache.gold_ratio, FRAME_ALIGN_LEFT, demoCache.gold, FRAME_ALIGN_RIGHT, 0, 0)
         hjapi.DzFrameSetSize(demoCache.gold_ratio, 0.08, 0.02)
         -- 木头
-        demoCache.lumber = hdzui.frameTag("TEXT", "txt_10l", demoCache.main)
-        hdzui.framePoint(demoCache.lumber, demoCache.main, FRAME_ALIGN_LEFT, FRAME_ALIGN_LEFT_TOP, px.resource.x + 0.096, px.resource.y - 0.0055)
+        demoCache.lumber = hjapi.FrameTag("TEXT", "txt_10l", demoCache.main)
+        hjapi.FrameRelation(demoCache.lumber, FRAME_ALIGN_LEFT, demoCache.main, FRAME_ALIGN_LEFT_TOP, px.resource.x + 0.096, px.resource.y - 0.0055)
         hjapi.DzFrameSetSize(demoCache.lumber, 0.05, 0.02)
         -- 木头率
-        demoCache.lumber_ratio = hdzui.frameTag("TEXT", "txt_8l", demoCache.main)
-        hdzui.framePoint(demoCache.lumber_ratio, demoCache.lumber, FRAME_ALIGN_LEFT, FRAME_ALIGN_RIGHT, 0, 0)
+        demoCache.lumber_ratio = hjapi.FrameTag("TEXT", "txt_8l", demoCache.main)
+        hjapi.FrameRelation(demoCache.lumber_ratio, FRAME_ALIGN_LEFT, demoCache.lumber, FRAME_ALIGN_RIGHT, 0, 0)
         -- 售卖率
-        demoCache.sell_ratio = hdzui.frameTag("TEXT", "txt_8l", demoCache.main)
-        hdzui.framePoint(demoCache.sell_ratio, demoCache.main, FRAME_ALIGN_CENTER, FRAME_ALIGN_LEFT_TOP, px.sell.x + 0.033, px.sell.y - 0.006)
+        demoCache.sell_ratio = hjapi.FrameTag("TEXT", "txt_8l", demoCache.main)
+        hjapi.FrameRelation(demoCache.sell_ratio, FRAME_ALIGN_CENTER, demoCache.main, FRAME_ALIGN_LEFT_TOP, px.sell.x + 0.033, px.sell.y - 0.006)
         -- 生命
-        demoCache.hp = hdzui.frameTag("TEXT", "txt_8l", demoCache.main)
-        hdzui.framePoint(demoCache.hp, demoCache.main, FRAME_ALIGN_LEFT, FRAME_ALIGN_LEFT_TOP, px.hp.x, px.hp.y - options.hp_y)
+        demoCache.hp = hjapi.FrameTag("TEXT", "txt_8l", demoCache.main)
+        hjapi.FrameRelation(demoCache.hp, FRAME_ALIGN_LEFT, demoCache.main, FRAME_ALIGN_LEFT_TOP, px.hp.x, px.hp.y - options.hp_y)
         hjapi.DzFrameSetSize(demoCache.hp, px.hp.w * 0.7, px.hp.h)
         -- 魔法
-        demoCache.mp = hdzui.frameTag("TEXT", "txt_8l", demoCache.main)
-        hdzui.framePoint(demoCache.mp, demoCache.main, FRAME_ALIGN_LEFT, FRAME_ALIGN_LEFT_TOP, px.mp.x, px.mp.y - options.mp_y)
+        demoCache.mp = hjapi.FrameTag("TEXT", "txt_8l", demoCache.main)
+        hjapi.FrameRelation(demoCache.mp, FRAME_ALIGN_LEFT, demoCache.main, FRAME_ALIGN_LEFT_TOP, px.mp.x, px.mp.y - options.mp_y)
         hjapi.DzFrameSetSize(demoCache.mp, px.hp.w * 0.7, px.hp.h)
         -- 生命恢复
-        demoCache.life_back = hdzui.frameTag("TEXT", "txt_8r", demoCache.main)
-        hdzui.framePoint(demoCache.life_back, demoCache.main, FRAME_ALIGN_CENTER, FRAME_ALIGN_LEFT_TOP, px.hp.x + 0.055, px.hp.y - options.hp_y)
+        demoCache.life_back = hjapi.FrameTag("TEXT", "txt_8r", demoCache.main)
+        hjapi.FrameRelation(demoCache.life_back, FRAME_ALIGN_CENTER, demoCache.main, FRAME_ALIGN_LEFT_TOP, px.hp.x + 0.055, px.hp.y - options.hp_y)
         hjapi.DzFrameSetSize(demoCache.life_back, px.hp.w * 0.3, px.hp.h)
         -- 魔法恢复
-        demoCache.mana_back = hdzui.frameTag("TEXT", "txt_8r", demoCache.main)
-        hdzui.framePoint(demoCache.mana_back, demoCache.main, FRAME_ALIGN_CENTER, FRAME_ALIGN_LEFT_TOP, px.mp.x + 0.055, px.mp.y - options.mp_y)
+        demoCache.mana_back = hjapi.FrameTag("TEXT", "txt_8r", demoCache.main)
+        hjapi.FrameRelation(demoCache.mana_back, FRAME_ALIGN_CENTER, demoCache.main, FRAME_ALIGN_LEFT_TOP, px.mp.x + 0.055, px.mp.y - options.mp_y)
         hjapi.DzFrameSetSize(demoCache.mana_back, px.hp.w * 0.3, px.hp.h)
         -- 信息面板
-        demoCache.info_attr = hdzui.frameTag("BACKDROP", "bg", demoCache.main)
+        demoCache.info_attr = hjapi.FrameTag("BACKDROP", "bg", demoCache.main)
         hjapi.DzFrameSetSize(demoCache.info_attr, px.info.w, px.info.h)
-        hdzui.framePoint(demoCache.info_attr, demoCache.main, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_LEFT_TOP, px.info.x, px.info.y)
+        hjapi.FrameRelation(demoCache.info_attr, FRAME_ALIGN_LEFT_TOP, demoCache.main, FRAME_ALIGN_LEFT_TOP, px.info.x, px.info.y)
         -- 单位标志
-        demoCache.sign = hdzui.frameTag("BACKDROP", "bg", demoCache.main)
-        hdzui.framePoint(demoCache.sign, demoCache.main, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_LEFT_TOP, px.info.x + 0.0035, px.info.y - 0.006)
+        demoCache.sign = hjapi.FrameTag("BACKDROP", "bg", demoCache.main)
+        hjapi.FrameRelation(demoCache.sign, FRAME_ALIGN_LEFT_TOP, demoCache.main, FRAME_ALIGN_LEFT_TOP, px.info.x + 0.0035, px.info.y - 0.006)
         hjapi.DzFrameSetSize(demoCache.sign, 0.014, 0.018)
         -- 单位名称
-        demoCache.unit_name = hdzui.frameTag("TEXT", "txt_10l", demoCache.main)
-        hdzui.framePoint(demoCache.unit_name, demoCache.main, FRAME_ALIGN_LEFT, FRAME_ALIGN_LEFT_TOP, px.info.x + 0.018, px.info.y - 0.01)
+        demoCache.unit_name = hjapi.FrameTag("TEXT", "txt_10l", demoCache.main)
+        hjapi.FrameRelation(demoCache.unit_name, FRAME_ALIGN_LEFT, demoCache.main, FRAME_ALIGN_LEFT_TOP, px.info.x + 0.018, px.info.y - 0.01)
         -- 英雄名称
-        demoCache.hero_name = hdzui.frameTag("TEXT", "txt_10l", demoCache.main)
-        hdzui.framePoint(demoCache.hero_name, demoCache.unit_name, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_RIGHT_TOP, 0, 0)
+        demoCache.hero_name = hjapi.FrameTag("TEXT", "txt_10l", demoCache.main)
+        hjapi.FrameRelation(demoCache.hero_name, FRAME_ALIGN_LEFT_TOP, demoCache.unit_name, FRAME_ALIGN_RIGHT_TOP, 0, 0)
         -- 条:存在周期[字]
-        demoCache.period = hdzui.frameTag("TEXT", "txt_76r", demoCache.main)
+        demoCache.period = hjapi.FrameTag("TEXT", "txt_76r", demoCache.main)
         hjapi.DzFrameSetText(demoCache.period, hcolor.mixed("存在", "26BD08"))
-        hdzui.framePoint(demoCache.period, demoCache.main, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_TOP, -0.024, -0.048)
+        hjapi.FrameRelation(demoCache.period, FRAME_ALIGN_LEFT_TOP, demoCache.main, FRAME_ALIGN_TOP, -0.024, -0.048)
         -- 条:存在周期[值]
-        demoCache.period_val = hdzui.frameTag("TEXT", "txt_6l", demoCache.main)
-        hdzui.framePoint(demoCache.period_val, demoCache.period, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_RIGHT_TOP, 0.002, 0.002)
+        demoCache.period_val = hjapi.FrameTag("TEXT", "txt_6l", demoCache.main)
+        hjapi.FrameRelation(demoCache.period_val, FRAME_ALIGN_LEFT_TOP, demoCache.period, FRAME_ALIGN_RIGHT_TOP, 0.002, 0.002)
         -- 条:经验[字]
-        demoCache.exp = hdzui.frameTag("TEXT", "txt_76r", demoCache.main)
+        demoCache.exp = hjapi.FrameTag("TEXT", "txt_76r", demoCache.main)
         hjapi.DzFrameSetText(demoCache.exp, hcolor.mixed("经验", "78B5E4"))
-        hdzui.framePoint(demoCache.exp, demoCache.period, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_LEFT_TOP, 0, 0)
+        hjapi.FrameRelation(demoCache.exp, FRAME_ALIGN_LEFT_TOP, demoCache.period, FRAME_ALIGN_LEFT_TOP, 0, 0)
         -- 条:经验[值]
-        demoCache.exp_val = hdzui.frameTag("TEXT", "txt_6l", demoCache.main)
-        hdzui.framePoint(demoCache.exp_val, demoCache.exp, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_RIGHT_TOP, 0.002, 0.002)
+        demoCache.exp_val = hjapi.FrameTag("TEXT", "txt_6l", demoCache.main)
+        hjapi.FrameRelation(demoCache.exp_val, FRAME_ALIGN_LEFT_TOP, demoCache.exp, FRAME_ALIGN_RIGHT_TOP, 0.002, 0.002)
         -- 条:硬直[字]
-        demoCache.punish = hdzui.frameTag("TEXT", "txt_76r", demoCache.main)
+        demoCache.punish = hjapi.FrameTag("TEXT", "txt_76r", demoCache.main)
         hjapi.DzFrameSetText(demoCache.punish, hcolor.mixed("硬直", "FFFF00"))
-        hdzui.framePoint(demoCache.punish, demoCache.exp, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_LEFT_TOP, 0, -0.012)
+        hjapi.FrameRelation(demoCache.punish, FRAME_ALIGN_LEFT_TOP, demoCache.exp, FRAME_ALIGN_LEFT_TOP, 0, -0.012)
         -- 条:硬直[值]
-        demoCache.punish_val = hdzui.frameTag("TEXT", "txt_6l", demoCache.main)
-        hdzui.framePoint(demoCache.punish_val, demoCache.punish, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_RIGHT_TOP, 0.002, 0.002)
+        demoCache.punish_val = hjapi.FrameTag("TEXT", "txt_6l", demoCache.main)
+        hjapi.FrameRelation(demoCache.punish_val, FRAME_ALIGN_LEFT_TOP, demoCache.punish, FRAME_ALIGN_RIGHT_TOP, 0.002, 0.002)
         -- 条:空1
-        demoCache.bar_e1 = hdzui.frameTag("BACKDROP", "bg_tile", demoCache.main)
-        hdzui.framePoint(demoCache.bar_e1, demoCache.period, FRAME_ALIGN_LEFT_BOTTOM, FRAME_ALIGN_RIGHT_BOTTOM, 0.002, 0)
+        demoCache.bar_e1 = hjapi.FrameTag("BACKDROP", "bg_tile", demoCache.main)
+        hjapi.FrameRelation(demoCache.bar_e1, FRAME_ALIGN_LEFT_BOTTOM, demoCache.period, FRAME_ALIGN_RIGHT_BOTTOM, 0.002, 0)
         hjapi.DzFrameSetTexture(demoCache.bar_e1, "ReplaceableTextures\\TeamColor\\TeamColor08.blp", false)
         hjapi.DzFrameSetSize(demoCache.bar_e1, bar_len, 0.002)
         -- 条:空2
-        demoCache.bar_e2 = hdzui.frameTag("BACKDROP", "bg_tile", demoCache.main)
-        hdzui.framePoint(demoCache.bar_e2, demoCache.punish, FRAME_ALIGN_LEFT_BOTTOM, FRAME_ALIGN_RIGHT_BOTTOM, 0.002, 0)
+        demoCache.bar_e2 = hjapi.FrameTag("BACKDROP", "bg_tile", demoCache.main)
+        hjapi.FrameRelation(demoCache.bar_e2, FRAME_ALIGN_LEFT_BOTTOM, demoCache.punish, FRAME_ALIGN_RIGHT_BOTTOM, 0.002, 0)
         hjapi.DzFrameSetTexture(demoCache.bar_e2, "ReplaceableTextures\\TeamColor\\TeamColor08.blp", false)
         hjapi.DzFrameSetSize(demoCache.bar_e2, bar_len, 0.002)
         -- 条:存在周期
-        demoCache.bar_period = hdzui.frameTag("BACKDROP", "bg_tile", demoCache.main)
-        hdzui.framePoint(demoCache.bar_period, demoCache.bar_e1, FRAME_ALIGN_LEFT, FRAME_ALIGN_LEFT, 0, 0)
+        demoCache.bar_period = hjapi.FrameTag("BACKDROP", "bg_tile", demoCache.main)
+        hjapi.FrameRelation(demoCache.bar_period, FRAME_ALIGN_LEFT, demoCache.bar_e1, FRAME_ALIGN_LEFT, 0, 0)
         hjapi.DzFrameSetTexture(demoCache.bar_period, "ReplaceableTextures\\TeamColor\\TeamColor06.blp", false)
         hjapi.DzFrameSetSize(demoCache.bar_period, bar_len, 0.002)
         -- 条:经验
-        demoCache.bar_exp = hdzui.frameTag("BACKDROP", "bg_tile", demoCache.main)
-        hdzui.framePoint(demoCache.bar_exp, demoCache.bar_e1, FRAME_ALIGN_LEFT, FRAME_ALIGN_LEFT, 0, 0)
+        demoCache.bar_exp = hjapi.FrameTag("BACKDROP", "bg_tile", demoCache.main)
+        hjapi.FrameRelation(demoCache.bar_exp, FRAME_ALIGN_LEFT, demoCache.bar_e1, FRAME_ALIGN_LEFT, 0, 0)
         hjapi.DzFrameSetTexture(demoCache.bar_exp, "ReplaceableTextures\\TeamColor\\TeamColor09.blp", false)
         hjapi.DzFrameSetSize(demoCache.bar_exp, bar_len, 0.002)
         -- 条:经验率
-        demoCache.exp_ratio = hdzui.frameTag("TEXT", "txt_6l", demoCache.main)
-        hdzui.framePoint(demoCache.exp_ratio, demoCache.bar_e1, FRAME_ALIGN_RIGHT_BOTTOM, FRAME_ALIGN_RIGHT_TOP, 0, 0.002)
+        demoCache.exp_ratio = hjapi.FrameTag("TEXT", "txt_6l", demoCache.main)
+        hjapi.FrameRelation(demoCache.exp_ratio, FRAME_ALIGN_RIGHT_BOTTOM, demoCache.bar_e1, FRAME_ALIGN_RIGHT_TOP, 0, 0.002)
         -- 条:硬直
-        demoCache.bar_punish = hdzui.frameTag("BACKDROP", "bg_tile", demoCache.main)
-        hdzui.framePoint(demoCache.bar_punish, demoCache.bar_e2, FRAME_ALIGN_LEFT, FRAME_ALIGN_LEFT, 0, 0)
+        demoCache.bar_punish = hjapi.FrameTag("BACKDROP", "bg_tile", demoCache.main)
+        hjapi.FrameRelation(demoCache.bar_punish, FRAME_ALIGN_LEFT, demoCache.bar_e2, FRAME_ALIGN_LEFT, 0, 0)
         hjapi.DzFrameSetTexture(demoCache.bar_punish, "ReplaceableTextures\\TeamColor\\TeamColor04.blp", false)
         hjapi.DzFrameSetSize(demoCache.bar_punish, bar_len, 0.002)
         -- 属性:复活
-        demoCache.reborn = hdzui.frameTag("TEXT", "txt_76l", demoCache.main)
-        hdzui.framePoint(demoCache.reborn, demoCache.unit_name, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_LEFT_BOTTOM, 0, -0.004)
+        demoCache.reborn = hjapi.FrameTag("TEXT", "txt_76l", demoCache.main)
+        hjapi.FrameRelation(demoCache.reborn, FRAME_ALIGN_LEFT_TOP, demoCache.unit_name, FRAME_ALIGN_LEFT_BOTTOM, 0, -0.004)
         local attr_y = -0.005
         -- 属性:攻击
-        demoCache.attack = hdzui.frameTag("TEXT", "txt_76l", demoCache.main)
-        hdzui.framePoint(demoCache.attack, demoCache.reborn, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_LEFT_BOTTOM, 0, attr_y)
+        demoCache.attack = hjapi.FrameTag("TEXT", "txt_76l", demoCache.main)
+        hjapi.FrameRelation(demoCache.attack, FRAME_ALIGN_LEFT_TOP, demoCache.reborn, FRAME_ALIGN_LEFT_BOTTOM, 0, attr_y)
         -- 属性:攻击速度
-        demoCache.attack_speed = hdzui.frameTag("TEXT", "txt_76l", demoCache.main)
-        hdzui.framePoint(demoCache.attack_speed, demoCache.attack, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_LEFT_BOTTOM, 0, 0)
+        demoCache.attack_speed = hjapi.FrameTag("TEXT", "txt_76l", demoCache.main)
+        hjapi.FrameRelation(demoCache.attack_speed, FRAME_ALIGN_LEFT_TOP, demoCache.attack, FRAME_ALIGN_LEFT_BOTTOM, 0, 0)
         -- 属性:攻击范围
-        demoCache.attack_range = hdzui.frameTag("TEXT", "txt_76l", demoCache.main)
-        hdzui.framePoint(demoCache.attack_range, demoCache.attack_speed, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_LEFT_BOTTOM, 0, 0)
+        demoCache.attack_range = hjapi.FrameTag("TEXT", "txt_76l", demoCache.main)
+        hjapi.FrameRelation(demoCache.attack_range, FRAME_ALIGN_LEFT_TOP, demoCache.attack_speed, FRAME_ALIGN_LEFT_BOTTOM, 0, 0)
         -- 属性:暴击加成
-        demoCache.knocking_extent = hdzui.frameTag("TEXT", "txt_76l", demoCache.main)
-        hdzui.framePoint(demoCache.knocking_extent, demoCache.attack_range, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_LEFT_BOTTOM, 0, attr_y)
+        demoCache.knocking_extent = hjapi.FrameTag("TEXT", "txt_76l", demoCache.main)
+        hjapi.FrameRelation(demoCache.knocking_extent, FRAME_ALIGN_LEFT_TOP, demoCache.attack_range, FRAME_ALIGN_LEFT_BOTTOM, 0, attr_y)
         -- 属性:暴击几率
-        demoCache.knocking_odds = hdzui.frameTag("TEXT", "txt_76l", demoCache.main)
-        hdzui.framePoint(demoCache.knocking_odds, demoCache.knocking_extent, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_LEFT_BOTTOM, 0, 0)
+        demoCache.knocking_odds = hjapi.FrameTag("TEXT", "txt_76l", demoCache.main)
+        hjapi.FrameRelation(demoCache.knocking_odds, FRAME_ALIGN_LEFT_TOP, demoCache.knocking_extent, FRAME_ALIGN_LEFT_BOTTOM, 0, 0)
         -- 属性:攻击吸血
-        demoCache.hemophagia = hdzui.frameTag("TEXT", "txt_76l", demoCache.main)
-        hdzui.framePoint(demoCache.hemophagia, demoCache.knocking_odds, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_LEFT_BOTTOM, 0, attr_y)
+        demoCache.hemophagia = hjapi.FrameTag("TEXT", "txt_76l", demoCache.main)
+        hjapi.FrameRelation(demoCache.hemophagia, FRAME_ALIGN_LEFT_TOP, demoCache.knocking_odds, FRAME_ALIGN_LEFT_BOTTOM, 0, attr_y)
         -- 属性:技能吸血
-        demoCache.hemophagia_skill = hdzui.frameTag("TEXT", "txt_76l", demoCache.main)
-        hdzui.framePoint(demoCache.hemophagia_skill, demoCache.hemophagia, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_LEFT_BOTTOM, 0, 0)
+        demoCache.hemophagia_skill = hjapi.FrameTag("TEXT", "txt_76l", demoCache.main)
+        hjapi.FrameRelation(demoCache.hemophagia_skill, FRAME_ALIGN_LEFT_TOP, demoCache.hemophagia, FRAME_ALIGN_LEFT_BOTTOM, 0, 0)
         -- 属性:负重
-        demoCache.weight = hdzui.frameTag("TEXT", "txt_76l", demoCache.main)
-        hdzui.framePoint(demoCache.weight, demoCache.hemophagia_skill, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_LEFT_BOTTOM, 0, attr_y)
+        demoCache.weight = hjapi.FrameTag("TEXT", "txt_76l", demoCache.main)
+        hjapi.FrameRelation(demoCache.weight, FRAME_ALIGN_LEFT_TOP, demoCache.hemophagia_skill, FRAME_ALIGN_LEFT_BOTTOM, 0, attr_y)
         -- 属性:移动
-        demoCache.move = hdzui.frameTag("TEXT", "txt_76l", demoCache.main)
-        hdzui.framePoint(demoCache.move, demoCache.weight, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_LEFT_BOTTOM, 0, 0)
+        demoCache.move = hjapi.FrameTag("TEXT", "txt_76l", demoCache.main)
+        hjapi.FrameRelation(demoCache.move, FRAME_ALIGN_LEFT_TOP, demoCache.weight, FRAME_ALIGN_LEFT_BOTTOM, 0, 0)
         -- 属性:护甲
-        demoCache.defend = hdzui.frameTag("TEXT", "txt_76l", demoCache.main)
-        hdzui.framePoint(demoCache.defend, demoCache.reborn, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_LEFT_BOTTOM, 0.062, attr_y)
+        demoCache.defend = hjapi.FrameTag("TEXT", "txt_76l", demoCache.main)
+        hjapi.FrameRelation(demoCache.defend, FRAME_ALIGN_LEFT_TOP, demoCache.reborn, FRAME_ALIGN_LEFT_BOTTOM, 0.062, attr_y)
         -- 属性:减伤
-        demoCache.damage_reduce = hdzui.frameTag("TEXT", "txt_76l", demoCache.main)
-        hdzui.framePoint(demoCache.damage_reduce, demoCache.defend, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_LEFT_BOTTOM, 0, 0)
+        demoCache.damage_reduce = hjapi.FrameTag("TEXT", "txt_76l", demoCache.main)
+        hjapi.FrameRelation(demoCache.damage_reduce, FRAME_ALIGN_LEFT_TOP, demoCache.defend, FRAME_ALIGN_LEFT_BOTTOM, 0, 0)
         -- 属性:治疗
-        demoCache.cure = hdzui.frameTag("TEXT", "txt_76l", demoCache.main)
-        hdzui.framePoint(demoCache.cure, demoCache.damage_reduce, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_LEFT_BOTTOM, 0, 0)
+        demoCache.cure = hjapi.FrameTag("TEXT", "txt_76l", demoCache.main)
+        hjapi.FrameRelation(demoCache.cure, FRAME_ALIGN_LEFT_TOP, demoCache.damage_reduce, FRAME_ALIGN_LEFT_BOTTOM, 0, 0)
         -- 属性:回避
-        demoCache.avoid = hdzui.frameTag("TEXT", "txt_76l", demoCache.main)
-        hdzui.framePoint(demoCache.avoid, demoCache.cure, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_LEFT_BOTTOM, 0, attr_y)
+        demoCache.avoid = hjapi.FrameTag("TEXT", "txt_76l", demoCache.main)
+        hjapi.FrameRelation(demoCache.avoid, FRAME_ALIGN_LEFT_TOP, demoCache.cure, FRAME_ALIGN_LEFT_BOTTOM, 0, attr_y)
         -- 属性:命中
-        demoCache.aim = hdzui.frameTag("TEXT", "txt_76l", demoCache.main)
-        hdzui.framePoint(demoCache.aim, demoCache.avoid, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_LEFT_BOTTOM, 0, 0)
+        demoCache.aim = hjapi.FrameTag("TEXT", "txt_76l", demoCache.main)
+        hjapi.FrameRelation(demoCache.aim, FRAME_ALIGN_LEFT_TOP, demoCache.avoid, FRAME_ALIGN_LEFT_BOTTOM, 0, 0)
         -- 属性:增伤
-        demoCache.damage_extent = hdzui.frameTag("TEXT", "txt_76l", demoCache.main)
-        hdzui.framePoint(demoCache.damage_extent, demoCache.aim, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_LEFT_BOTTOM, 0, attr_y)
+        demoCache.damage_extent = hjapi.FrameTag("TEXT", "txt_76l", demoCache.main)
+        hjapi.FrameRelation(demoCache.damage_extent, FRAME_ALIGN_LEFT_TOP, demoCache.aim, FRAME_ALIGN_LEFT_BOTTOM, 0, attr_y)
         -- 属性:反伤
-        demoCache.damage_rebound = hdzui.frameTag("TEXT", "txt_76l", demoCache.main)
-        hdzui.framePoint(demoCache.damage_rebound, demoCache.damage_extent, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_LEFT_BOTTOM, 0, 0)
+        demoCache.damage_rebound = hjapi.FrameTag("TEXT", "txt_76l", demoCache.main)
+        hjapi.FrameRelation(demoCache.damage_rebound, FRAME_ALIGN_LEFT_TOP, demoCache.damage_extent, FRAME_ALIGN_LEFT_BOTTOM, 0, 0)
         -- 属性:白天视野
-        demoCache.sight_day = hdzui.frameTag("TEXT", "txt_76l", demoCache.main)
-        hdzui.framePoint(demoCache.sight_day, demoCache.damage_rebound, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_LEFT_BOTTOM, 0, attr_y)
+        demoCache.sight_day = hjapi.FrameTag("TEXT", "txt_76l", demoCache.main)
+        hjapi.FrameRelation(demoCache.sight_day, FRAME_ALIGN_LEFT_TOP, demoCache.damage_rebound, FRAME_ALIGN_LEFT_BOTTOM, 0, attr_y)
         -- 属性:夜晚视野
-        demoCache.sight_night = hdzui.frameTag("TEXT", "txt_76l", demoCache.main)
-        hdzui.framePoint(demoCache.sight_night, demoCache.sight_day, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_LEFT_BOTTOM, 0, 0)
+        demoCache.sight_night = hjapi.FrameTag("TEXT", "txt_76l", demoCache.main)
+        hjapi.FrameRelation(demoCache.sight_night, FRAME_ALIGN_LEFT_TOP, demoCache.sight_day, FRAME_ALIGN_LEFT_BOTTOM, 0, 0)
         -- 属性:力量
-        demoCache.str = hdzui.frameTag("TEXT", "txt_76l", demoCache.main)
-        hdzui.framePoint(demoCache.str, demoCache.reborn, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_LEFT_BOTTOM, 0.120, attr_y)
+        demoCache.str = hjapi.FrameTag("TEXT", "txt_76l", demoCache.main)
+        hjapi.FrameRelation(demoCache.str, FRAME_ALIGN_LEFT_TOP, demoCache.reborn, FRAME_ALIGN_LEFT_BOTTOM, 0.120, attr_y)
         -- 属性:力量成长
-        demoCache.str_plus = hdzui.frameTag("TEXT", "txt_76l", demoCache.main)
-        hdzui.framePoint(demoCache.str_plus, demoCache.str, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_LEFT_BOTTOM, 0, 0)
+        demoCache.str_plus = hjapi.FrameTag("TEXT", "txt_76l", demoCache.main)
+        hjapi.FrameRelation(demoCache.str_plus, FRAME_ALIGN_LEFT_TOP, demoCache.str, FRAME_ALIGN_LEFT_BOTTOM, 0, 0)
         -- 属性:敏捷
-        demoCache.agi = hdzui.frameTag("TEXT", "txt_76l", demoCache.main)
-        hdzui.framePoint(demoCache.agi, demoCache.str_plus, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_LEFT_BOTTOM, 0, attr_y)
+        demoCache.agi = hjapi.FrameTag("TEXT", "txt_76l", demoCache.main)
+        hjapi.FrameRelation(demoCache.agi, FRAME_ALIGN_LEFT_TOP, demoCache.str_plus, FRAME_ALIGN_LEFT_BOTTOM, 0, attr_y)
         -- 属性:敏捷成长
-        demoCache.agi_plus = hdzui.frameTag("TEXT", "txt_76l", demoCache.main)
-        hdzui.framePoint(demoCache.agi_plus, demoCache.agi, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_LEFT_BOTTOM, 0, 0)
+        demoCache.agi_plus = hjapi.FrameTag("TEXT", "txt_76l", demoCache.main)
+        hjapi.FrameRelation(demoCache.agi_plus, FRAME_ALIGN_LEFT_TOP, demoCache.agi, FRAME_ALIGN_LEFT_BOTTOM, 0, 0)
         -- 属性:智力
-        demoCache.int = hdzui.frameTag("TEXT", "txt_76l", demoCache.main)
-        hdzui.framePoint(demoCache.int, demoCache.agi_plus, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_LEFT_BOTTOM, 0, attr_y)
+        demoCache.int = hjapi.FrameTag("TEXT", "txt_76l", demoCache.main)
+        hjapi.FrameRelation(demoCache.int, FRAME_ALIGN_LEFT_TOP, demoCache.agi_plus, FRAME_ALIGN_LEFT_BOTTOM, 0, attr_y)
         -- 属性:智力成长
-        demoCache.int_plus = hdzui.frameTag("TEXT", "txt_76l", demoCache.main)
-        hdzui.framePoint(demoCache.int_plus, demoCache.int, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_LEFT_BOTTOM, 0, 0)
+        demoCache.int_plus = hjapi.FrameTag("TEXT", "txt_76l", demoCache.main)
+        hjapi.FrameRelation(demoCache.int_plus, FRAME_ALIGN_LEFT_TOP, demoCache.int, FRAME_ALIGN_LEFT_BOTTOM, 0, 0)
         -- 属性:附魔攻击
-        demoCache.e_attack = hdzui.frameTag("TEXT", "txt_76l", demoCache.main)
-        hdzui.framePoint(demoCache.e_attack, demoCache.reborn, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_LEFT_BOTTOM, 0.120, -0.064)
+        demoCache.e_attack = hjapi.FrameTag("TEXT", "txt_76l", demoCache.main)
+        hjapi.FrameRelation(demoCache.e_attack, FRAME_ALIGN_LEFT_TOP, demoCache.reborn, FRAME_ALIGN_LEFT_BOTTOM, 0.120, -0.064)
         -- 属性:附魔附着
-        demoCache.e_append = hdzui.frameTag("TEXT", "txt_76l", demoCache.main)
-        hdzui.framePoint(demoCache.e_append, demoCache.e_attack, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_LEFT_BOTTOM, 0, 0)
+        demoCache.e_append = hjapi.FrameTag("TEXT", "txt_76l", demoCache.main)
+        hjapi.FrameRelation(demoCache.e_append, FRAME_ALIGN_LEFT_TOP, demoCache.e_attack, FRAME_ALIGN_LEFT_BOTTOM, 0, 0)
         -- 属性:附魔抗性
-        demoCache.e_oppose = hdzui.frameTag("TEXT", "txt_76l", demoCache.main)
-        hdzui.framePoint(demoCache.e_oppose, demoCache.e_append, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_LEFT_BOTTOM, 0, 0)
+        demoCache.e_oppose = hjapi.FrameTag("TEXT", "txt_76l", demoCache.main)
+        hjapi.FrameRelation(demoCache.e_oppose, FRAME_ALIGN_LEFT_TOP, demoCache.e_append, FRAME_ALIGN_LEFT_BOTTOM, 0, 0)
         -- 上方目标血条
-        demoCache.target = hdzui.frameTag("BACKDROP", "bg_bar_target", demoCache.game)
-        hdzui.framePoint(demoCache.target, demoCache.game, FRAME_ALIGN_CENTER, FRAME_ALIGN_TOP, 0, -0.04)
+        demoCache.target = hjapi.FrameTag("BACKDROP", "bg_bar_target", demoCache.game)
+        hjapi.FrameRelation(demoCache.target, FRAME_ALIGN_CENTER, demoCache.game, FRAME_ALIGN_TOP, 0, -0.04)
         hjapi.DzFrameSetSize(demoCache.target, 0.24, 0.03)
-        demoCache.target_ava = hdzui.frameTag("BACKDROP", "bg", demoCache.game)
-        hdzui.framePoint(demoCache.target_ava, demoCache.target, FRAME_ALIGN_LEFT, FRAME_ALIGN_LEFT, 0.002, 0)
+        demoCache.target_ava = hjapi.FrameTag("BACKDROP", "bg", demoCache.game)
+        hjapi.FrameRelation(demoCache.target_ava, FRAME_ALIGN_LEFT, demoCache.target, FRAME_ALIGN_LEFT, 0.002, 0)
         hjapi.DzFrameSetSize(demoCache.target_ava, 0.02, 0.023)
-        demoCache.target_val1 = hdzui.frameTag("BACKDROP", "bg_tile", demoCache.target)
-        hdzui.framePoint(demoCache.target_val1, demoCache.target, FRAME_ALIGN_LEFT, FRAME_ALIGN_LEFT, 0.0236, 0)
+        demoCache.target_val1 = hjapi.FrameTag("BACKDROP", "bg_tile", demoCache.target)
+        hjapi.FrameRelation(demoCache.target_val1, FRAME_ALIGN_LEFT, demoCache.target, FRAME_ALIGN_LEFT, 0.0236, 0)
         hjapi.DzFrameSetSize(demoCache.target_val1, 0.2126, 0.022)
-        demoCache.target_val2 = hdzui.frameTag("BACKDROP", "bg_tile", demoCache.target)
-        hdzui.framePoint(demoCache.target_val2, demoCache.target, FRAME_ALIGN_LEFT, FRAME_ALIGN_LEFT, 0.0236, 0)
+        demoCache.target_val2 = hjapi.FrameTag("BACKDROP", "bg_tile", demoCache.target)
+        hjapi.FrameRelation(demoCache.target_val2, FRAME_ALIGN_LEFT, demoCache.target, FRAME_ALIGN_LEFT, 0.0236, 0)
         hjapi.DzFrameSetSize(demoCache.target_val2, 0.2126, 0.022)
-        demoCache.target_tl = hdzui.frameTag("TEXT", "txt_12l", demoCache.game)
-        hdzui.framePoint(demoCache.target_tl, demoCache.target, FRAME_ALIGN_LEFT, FRAME_ALIGN_LEFT, 0.025, 0)
-        demoCache.target_tr = hdzui.frameTag("TEXT", "txt_12r", demoCache.game)
-        hdzui.framePoint(demoCache.target_tr, demoCache.target, FRAME_ALIGN_RIGHT, FRAME_ALIGN_RIGHT, -0.006, 0)
+        demoCache.target_tl = hjapi.FrameTag("TEXT", "txt_12l", demoCache.game)
+        hjapi.FrameRelation(demoCache.target_tl, FRAME_ALIGN_LEFT, demoCache.target, FRAME_ALIGN_LEFT, 0.025, 0)
+        demoCache.target_tr = hjapi.FrameTag("TEXT", "txt_12r", demoCache.game)
+        hjapi.FrameRelation(demoCache.target_tr, FRAME_ALIGN_RIGHT, demoCache.target, FRAME_ALIGN_RIGHT, -0.006, 0)
         -- 右侧展开属性
-        demoCache.more_tip = hdzui.frameTag("BACKDROP", "bg_tooltip", demoCache.game)
-        hdzui.framePoint(demoCache.more_tip, demoCache.game, FRAME_ALIGN_LEFT_BOTTOM, FRAME_ALIGN_BOTTOM, 0.088, 0.002)
+        demoCache.more_tip = hjapi.FrameTag("BACKDROP", "bg_tooltip", demoCache.game)
+        hjapi.FrameRelation(demoCache.more_tip, FRAME_ALIGN_LEFT_BOTTOM, demoCache.game, FRAME_ALIGN_BOTTOM, 0.088, 0.002)
         hjapi.DzFrameSetSize(demoCache.more_tip, 0.1, 0.1)
         hjapi.DzFrameShow(demoCache.more_tip, false)
-        demoCache.more_txt = hdzui.frameTag("TEXT", "txt_10l", demoCache.game)
-        hdzui.framePoint(demoCache.more_txt, demoCache.more_tip, FRAME_ALIGN_CENTER, FRAME_ALIGN_CENTER, 0, 0)
+        demoCache.more_txt = hjapi.FrameTag("TEXT", "txt_10l", demoCache.game)
+        hjapi.FrameRelation(demoCache.more_txt, FRAME_ALIGN_CENTER, demoCache.more_tip, FRAME_ALIGN_CENTER, 0, 0)
         hjapi.DzFrameShow(demoCache.more_txt, false)
         -- UI展示
         demoCache.update()
