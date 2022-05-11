@@ -360,9 +360,7 @@ return {
                                     "护甲", "无", false,
                                     { "attack_white", "attack_green" }, true,
                                     math.floor(attr.defend), "")
-                                if (his.invisible(selection)) then
-                                    data.defend = data.defend .. hcolor.grey("[隐身]")
-                                elseif (his.immune(selection)) then
+                                if (his.immune(selection)) then
                                     data.defend = data.defend .. hcolor.grey("[魔免]")
                                 elseif (his.ethereal(selection)) then
                                     data.defend = data.defend .. hcolor.grey("[虚无]")
