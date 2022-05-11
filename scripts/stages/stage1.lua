@@ -67,27 +67,6 @@ stage1 = function()
         if (math.random(1, 2) == 1) then
             cj.IssueTargetOrder(u, "attack", evtData.sourceUnit)
         end
-        local radius = 400
-        stage_spell(u, "怒气爆裂", 20, "attack spell",
-            function()
-                htexture.alertCircle(radius * 2, hunit.x(u), hunit.y(u), stage_holdOn())
-            end,
-            function()
-                hskill.rangeSwim({
-                    radius = radius,
-                    during = 1.4,
-                    odds = 100,
-                    effect = "Abilities\\Spells\\Orc\\WarStomp\\WarStompCaster.mdl",
-                    targetUnit = u,
-                    filter = function(filterUnit)
-                        return his.alive(filterUnit) and his.allyPlayer(filterUnit, game.ALLY_PLAYER)
-                    end,
-                    damage = 200 + game.diff * 15,
-                    sourceUnit = u,
-                    damageSrc = CONST_DAMAGE_SRC.skill,
-                    damageType = { CONST_DAMAGE_TYPE.physical, CONST_DAMAGE_TYPE.soil }
-                })
-            end)
     end)
     hevent.onDead(boss, function(evtData)
         hrect.del(trap1)
