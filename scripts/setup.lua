@@ -8,7 +8,7 @@ hcmd.conf({ "-gg", "-apm", "-random", "-repick", "-d" }, { 1 })
 -- 设定敌军
 henemy.set("怪物", PLAYER_COLOR_BLACK, { 8, 9, 10, 11 })
 
-hevent_default_actions.hero.reborn = function(u, rebornSec)
+hevent_binder.hero.reborn = function(u, rebornSec)
     local p = hunit.getOwner(u)
     if (game.rebornQty <= 0) then
         echo(hcolor.red(hplayer.getName(p)) .. "的英雄不幸死亡了，他离开了我们")

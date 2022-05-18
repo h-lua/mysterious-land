@@ -69,7 +69,7 @@ stage1 = function()
         end
     end)
     hevent.onDead(boss, function(evtData)
-        hrect.del(trap1)
+        hrect.destroy(trap1)
         stage2()
         stage_ttg(evtData.triggerUnit, "竟然...!")
         local deadUnit = evtData.triggerUnit
@@ -90,7 +90,7 @@ stage1 = function()
         end
     end)
     hevent.onDestructableDestroy(JassGlobals.gg_dest_DTg7_0109, function(evtData)
-        henv.delDestructable(evtData.triggerDestructable)
+        cj.RemoveDestructable(evtData.triggerDestructable)
         if (his.alive(boss)) then
             hunit.kill(boss, 0)
         end

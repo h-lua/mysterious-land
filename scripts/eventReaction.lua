@@ -13,7 +13,7 @@ hmodelTag.char("+", "hLua\\ttg\\s_jia.mdl", 1.7)
 hmodelTag.char("-", "hLua\\ttg\\s_jian.mdl", 1.7)
 
 local function _z(u, offset)
-    return hunit.getFlyHeight(u) + hunit.z(u) + 130 + offset
+    return hunit.h(u) + 130 + offset
 end
 
 ---@param evtData onBeDamageData

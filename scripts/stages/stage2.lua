@@ -48,7 +48,7 @@ stage2 = function()
     --
     local rect = hrect.create(-2108, -8895, 384, 640)
     hevent.onEnterRect(rect, function(evtData)
-        hrect.del(evtData.triggerRect, 0)
+        hrect.destroy(evtData.triggerRect, 0)
         stage3()
     end)
 end

@@ -106,7 +106,7 @@ stage3 = function()
             for i = 1, hplayer.qty_max, 1 do
                 if (his.playing(hplayer.players[i])) then
                     local hero = hhero.player_heroes[i][1]
-                    if (math.getDistanceBetweenUnit(fire, hero) <= 700) then
+                    if (math.distance(hunit.x(fire), hunit.y(fire), hunit.x(hero), hunit.y(hero)) <= 700) then
                         hattr.set(hero, 2, { life_back = "+60" })
                         heffect.attach(
                             "Abilities\\Spells\\Human\\Heal\\HealTarget.mdl",

@@ -200,6 +200,7 @@ return {
         local bar_len = 0.074
         -- 之后下面是自定义UI
         -- 每个周期都更新UI
+        demoCache.lastTarget = {}
         demoCache.update = function()
             hplayer.forEach(function(enumPlayer, idx)
                 if (hplayer.loc() == enumPlayer) then
@@ -224,13 +225,16 @@ return {
                 local isInt = false
                 local selection
                 local data = {}
-                local lastTarget
                 if (his.playing(enumPlayer)) then
                     selection = hplayer.getSelection(enumPlayer)
-                    lastTarget = hevent.getPlayerLastDamageTarget(enumPlayer)
+                    local ldt = hevent.getPlayerLastDamageTarget(enumPlayer)
+                    if (demoCache.lastTarget[idx] ~= ldt) then
+                        demoCache.lastTarget[idx] = ldt
+                        demoCache.target_val_prev = nil
+                    end
                     if (selection ~= nil) then
                         local attr = hattribute.get(selection)
-                        if (attr ~= nil and his.alive(selection) and false == his.deleted(selection)) then
+                        if (attr ~= nil and his.alive(selection) and false == his.unitDestroyed(selection)) then
                             show = true
                             isHero = his.hero(selection)
                             primary = hhero.getPrimary(selection)
@@ -299,132 +303,54 @@ return {
                             if (data.hero_name ~= "") then
                                 data.hero_name = "·" .. data.hero_name
                             end
-                            local attrBuilder = function(label, def, defCheck, buffs, isPositive, val, unit)
+                            local attrBuilder = function(label, def, defCheck, val, unit)
                                 if (defCheck == true) then
                                     return hcolor.grey(label .. ":" .. def)
                                 end
                                 return label .. ":" .. val .. unit
                             end
-                            data.reborn = attrBuilder(
-                                "复活", "不能", attr.reborn < 0,
-                                { "reborn" }, false,
-                                math.round(attr.reborn, 1), "秒"
-                            )
+                            data.reborn = attrBuilder("复活", "不能", attr.reborn < 0, math.round(attr.reborn, 1), "秒")
                             local weapsOn = hslk.i2v(hunit.getId(selection), "slk", "weapsOn") or "0"
                             local can_attack = ("0" ~= weapsOn)
-                            data.attack = attrBuilder(
-                                "攻击", "无", not can_attack,
-                                { "attack_white", "attack_green" }, true,
-                                math.numberFormat(attr.attack_sides[1], 1) .. "~" .. math.numberFormat(attr.attack_sides[2], 1), "")
-                            data.attack_speed = attrBuilder(
-                                "攻速", "无", not can_attack,
-                                { "attack_speed" }, true,
-                                math.round(attr.attack_space, 1), "秒")
+                            data.attack = attrBuilder("攻击", "无", not can_attack, math.numberFormat(attr.attack_sides[1], 1) .. "~" .. math.numberFormat(attr.attack_sides[2], 1), "")
+                            data.attack_speed = attrBuilder("攻速", "无", not can_attack, math.round(attr.attack_space, 1), "秒")
                             if (attr.attack_speed > 0) then
                                 data.attack_speed = data.attack_speed .. hcolor.grey("(+" .. math.floor(attr.attack_speed) .. "%)")
                             elseif (attr.attack_speed < 0) then
                                 data.attack_speed = data.attack_speed .. hcolor.redLight("(" .. math.floor(attr.attack_speed) .. "%)")
                             end
-                            data.attack_range = attrBuilder(
-                                "攻击范围", "无", not can_attack,
-                                { "attack_range" }, true,
-                                math.floor(attr.attack_range), "")
-                            data.knocking_extent = attrBuilder(
-                                "暴击加成", "无", not can_attack,
-                                { "knocking_extent" }, true,
-                                0, "%")
-                            data.knocking_odds = attrBuilder(
-                                "暴击几率", "无", not can_attack,
-                                { "knocking_odds" }, true,
-                                0, "%")
-                            data.hemophagia = attrBuilder(
-                                "攻击吸血", "无", not can_attack,
-                                { "hemophagia" }, true,
-                                0, "%")
-                            data.hemophagia_skill = attrBuilder(
-                                "技能吸血", "无", false,
-                                { "hemophagia_skill" }, true,
-                                0, "%")
-                            data.weight = attrBuilder(
-                                "负重", "无", false == his.hasSlot(selection),
-                                { "weight" }, true,
-                                0, "Kg")
-                            data.move = attrBuilder(
-                                "移动", "无", false,
-                                { "move" }, true,
-                                math.floor(attr.move), "")
+                            data.attack_range = attrBuilder("攻击范围", "无", not can_attack, math.floor(attr.attack_range), "")
+                            data.knocking_extent = attrBuilder("暴击加成", "无", not can_attack, 0, "%")
+                            data.knocking_odds = attrBuilder("暴击几率", "无", not can_attack, 0, "%")
+                            data.hemophagia = attrBuilder("攻击吸血", "无", not can_attack, 0, "%")
+                            data.hemophagia_skill = attrBuilder("技能吸血", "无", false, 0, "%")
+                            data.weight = attrBuilder("负重", "无", false == his.hasSlot(selection), 0, "Kg")
+                            data.move = attrBuilder("移动", "无", false, math.floor(attr.move), "")
                             if (his.invincible(selection)) then
                                 data.defend = "护甲:" .. hcolor.gold("无敌")
                             else
-                                data.defend = attrBuilder(
-                                    "护甲", "无", false,
-                                    { "attack_white", "attack_green" }, true,
-                                    math.floor(attr.defend), "")
+                                data.defend = attrBuilder("护甲", "无", false, math.floor(attr.defend), "")
                                 if (his.immune(selection)) then
                                     data.defend = data.defend .. hcolor.grey("[魔免]")
                                 elseif (his.ethereal(selection)) then
                                     data.defend = data.defend .. hcolor.grey("[虚无]")
-                                else
-                                    data.defend = data.defend .. hcolor.grey("(-" .. math.round(hattribute.getArmorReducePercent(attr.defend) * 100, 1) .. "%)")
                                 end
                             end
-                            data.damage_reduce = attrBuilder(
-                                "减伤", "无", false,
-                                { "defend" }, true,
-                                data.defend, "")
-                            data.cure = attrBuilder(
-                                "治疗加成", "无", false,
-                                { "cure" }, true,
-                                0, "%")
-                            data.avoid = attrBuilder(
-                                "回避几率", "无", false,
-                                { "avoid" }, true,
-                                0, "%")
-                            data.aim = attrBuilder(
-                                "命中加成", "无", false,
-                                { "aim" }, true,
-                                0, "%")
-                            data.damage_extent = attrBuilder(
-                                "伤害增幅", "无", false,
-                                { "damage_extent" }, true,
-                                0, "%")
-                            data.damage_rebound = attrBuilder(
-                                "反弹伤害", "无", false,
-                                { "damage_rebound" }, true,
-                                0, "%")
-                            data.sight_day = attrBuilder(
-                                "白天视野", "无", false,
-                                { "sight" }, true,
-                                math.floor(hunit.getSight(selection)), "")
-                            data.sight_night = attrBuilder(
-                                "黑夜视野", "无", false,
-                                { "sight" }, true,
-                                math.floor(hunit.getNSight(selection)), "")
+                            data.damage_reduce = attrBuilder("减伤", "无", false, 0, "")
+                            data.cure = attrBuilder("治疗加成", "无", false, 0, "%")
+                            data.avoid = attrBuilder("回避几率", "无", false, 0, "%")
+                            data.aim = attrBuilder("命中加成", "无", false, 0, "%")
+                            data.damage_extent = attrBuilder("伤害增幅", "无", false, 0, "%")
+                            data.damage_rebound = attrBuilder("反弹伤害", "无", false, 0, "%")
+                            data.sight_day = attrBuilder("白天视野", "无", false, math.floor(hunit.getSight(selection)), "")
+                            data.sight_night = attrBuilder("黑夜视野", "无", false, math.floor(hunit.getNSight(selection)), "")
                             if (isHero) then
-                                data.str = attrBuilder(
-                                    hcolor.mixed("力量", "FFA99F"), "无", false,
-                                    { "str_white", "str_green" }, true,
-                                    math.floor(attr.str), "")
-                                data.agi = attrBuilder(
-                                    hcolor.mixed("敏捷", "CBFF9E"), "无", false,
-                                    { "agi_white", "agi_green" }, true,
-                                    math.floor(attr.agi), "")
-                                data.int = attrBuilder(
-                                    hcolor.mixed("智力", "A0E1FF"), "无", false,
-                                    { "int_white", "int_green" }, true,
-                                    math.floor(attr.int), "")
-                                data.str_plus = attrBuilder(
-                                    hcolor.mixed("成长", "FFA99F"), "无", false,
-                                    {}, true,
-                                    "+" .. hhero.getStrPlus(selection), "")
-                                data.agi_plus = attrBuilder(
-                                    hcolor.mixed("成长", "CBFF9E"), "无", false,
-                                    {}, true,
-                                    "+" .. hhero.getAgiPlus(selection), "")
-                                data.int_plus = attrBuilder(
-                                    hcolor.mixed("成长", "A0E1FF"), "无", false,
-                                    {}, true,
-                                    "+" .. hhero.getIntPlus(selection), "")
+                                data.str = attrBuilder(hcolor.mixed("力量", "FFA99F"), "无", false, math.floor(attr.str), "")
+                                data.agi = attrBuilder(hcolor.mixed("敏捷", "CBFF9E"), "无", false, math.floor(attr.agi), "")
+                                data.int = attrBuilder(hcolor.mixed("智力", "A0E1FF"), "无", false, math.floor(attr.int), "")
+                                data.str_plus = attrBuilder(hcolor.mixed("成长", "FFA99F"), "无", false, "+" .. hhero.getStrPlus(selection), "")
+                                data.agi_plus = attrBuilder(hcolor.mixed("成长", "CBFF9E"), "无", false, "+" .. hhero.getAgiPlus(selection), "")
+                                data.int_plus = attrBuilder(hcolor.mixed("成长", "A0E1FF"), "无", false, "+" .. hhero.getIntPlus(selection), "")
                             end
                             if (isPeriod) then
                                 local pr = hunit.getPeriodRemain(selection)
@@ -441,22 +367,22 @@ return {
                         end
                     end
                     -- 目标数据
-                    if (lastTarget) then
-                        if (his.dead(lastTarget) or his.deleted(lastTarget)) then
-                            lastTarget = nil
+                    if (demoCache.lastTarget[idx]) then
+                        if (his.dead(demoCache.lastTarget[idx]) or his.unitDestroyed(demoCache.lastTarget[idx])) then
+                            demoCache.lastTarget[idx] = nil
                             if (selection) then
                                 hevent.setLastDamage(selection, nil)
                             end
                         end
-                        if (lastTarget ~= nil) then
-                            local ml = math.floor(hunit.getMaxLife(lastTarget)) or 0
-                            local cl = math.floor(hunit.getCurLife(lastTarget)) or 0
+                        if (demoCache.lastTarget[idx] ~= nil) then
+                            local ml = math.floor(hunit.getMaxLife(demoCache.lastTarget[idx])) or 0
+                            local cl = math.floor(hunit.getCurLife(demoCache.lastTarget[idx])) or 0
                             if (ml > 0 and cl > 0) then
                                 local HPUnit = math.min(options.target_hp_unit, ml)
-                                data.target_ava = hunit.getAvatar(lastTarget)
+                                data.target_ava = hunit.getAvatar(demoCache.lastTarget[idx])
                                 local tr = math.ceil(cl / HPUnit)
                                 if (tr > 0) then
-                                    data.target_tl = "等级" .. cj.GetUnitLevel(lastTarget) .. " " .. hunit.getName(lastTarget) .. "      " .. cl .. "/" .. ml
+                                    data.target_tl = "等级" .. cj.GetUnitLevel(demoCache.lastTarget[idx]) .. " " .. hunit.getName(demoCache.lastTarget[idx]) .. "      " .. cl .. "/" .. ml
                                     data.target_tr = ""
                                     data.target_val1 = nil
                                     data.target_val2 = (tr - 1) % 10
@@ -475,7 +401,7 @@ return {
                                 end
                                 data.target_val = (cl % HPUnit) / HPUnit
                             else
-                                lastTarget = nil
+                                demoCache.lastTarget[idx] = nil
                             end
                         end
                     end
@@ -597,7 +523,7 @@ return {
                     hjapi.DzFrameShow(demoCache.bar_period, show and isBarPeriod)
                     hjapi.DzFrameShow(demoCache.bar_exp, show and (not isPeriod) and isBarExp)
                     hjapi.DzFrameShow(demoCache.bar_punish, show and isBarPunish)
-                    if (lastTarget ~= nil) then
+                    if (demoCache.lastTarget[idx] ~= nil and data.target_val ~= nil) then
                         hjapi.DzFrameSetTexture(demoCache.target_ava, data.target_ava)
                         hjapi.DzFrameSetText(demoCache.target_tl, data.target_tl)
                         hjapi.DzFrameSetText(demoCache.target_tr, data.target_tr)
@@ -613,7 +539,7 @@ return {
                         end
                         demoCache.target_val_prev = next
                         hjapi.DzFrameSetSize(demoCache.target_val2, next, 0.022)
-                        hjapi.DzFrameSetAlpha(demoCache.target_val2, 400 * next / 0.2126)
+                        hjapi.DzFrameSetAlpha(demoCache.target_val2, 255)
                         if (data.target_val1 ~= nil) then
                             hjapi.DzFrameSetTexture(demoCache.target_val1, "ReplaceableTextures\\TeamColor\\TeamColor0" .. data.target_val1 .. ".blp")
                         end
@@ -848,7 +774,7 @@ return {
         hjapi.DzFrameShow(demoCache.more_txt, false)
         -- UI展示
         demoCache.update()
-        demoCache.updateTimer = htime.setInterval(0.2, function(_)
+        demoCache.updateTimer = htime.setInterval(0.05, function(_)
             demoCache.update()
         end)
     end
