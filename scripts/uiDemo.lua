@@ -312,7 +312,7 @@ return {
                             data.reborn = attrBuilder("复活", "不能", attr.reborn < 0, math.round(attr.reborn, 1), "秒")
                             local weapsOn = hslk.i2v(hunit.getId(selection), "slk", "weapsOn") or "0"
                             local can_attack = ("0" ~= weapsOn)
-                            data.attack = attrBuilder("攻击", "无", not can_attack, math.numberFormat(attr.attack_sides[1], 1) .. "~" .. math.numberFormat(attr.attack_sides[2], 1), "")
+                            data.attack = attrBuilder("攻击", "无", not can_attack, math.integerFormat(attr.attack + attr.attack_sides[1]) .. "~" .. math.integerFormat(attr.attack + attr.attack_sides[2]), "")
                             data.attack_speed = attrBuilder("攻速", "无", not can_attack, math.round(attr.attack_space, 1), "秒")
                             if (attr.attack_speed > 0) then
                                 data.attack_speed = data.attack_speed .. hcolor.grey("(+" .. math.floor(attr.attack_speed) .. "%)")
