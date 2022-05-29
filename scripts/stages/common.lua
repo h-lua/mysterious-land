@@ -53,7 +53,7 @@ stage_spell = function(whichUnit, message, cd, animate, ready, call)
         })
         htime.setTimeout(stage_holdOn(), function(curTimer)
             curTimer.destroy()
-            if (his.alive(whichUnit)) then
+            if (hunit.isAlive(whichUnit)) then
                 call()
             end
         end)

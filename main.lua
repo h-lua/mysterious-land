@@ -35,7 +35,7 @@ function main()
     echo("^_^ 您来到了秘境，请选择" .. hcolor.yellow("你的英雄"))
     -- 玩家配置
     for i = 1, hplayer.qty_max, 1 do
-        if (his.playing(hplayer.players[i])) then
+        if (hplayer.isPlaying(hplayer.players[i])) then
             -- 称号
             hplayer.setPrestige(hplayer.players[i], "冒险者")
         end

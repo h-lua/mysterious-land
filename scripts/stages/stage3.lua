@@ -79,7 +79,7 @@ stage3 = function()
     end)
 
     for i = 1, hplayer.qty_max, 1 do
-        if (his.playing(hplayer.players[i])) then
+        if (hplayer.isPlaying(hplayer.players[i])) then
             local hero = hhero.player_heroes[i][1]
             hattr.set(hero, 0, {
                 life_back = "-100",
@@ -89,10 +89,10 @@ stage3 = function()
     end
 
     htime.setInterval(1.5, function(curTimer)
-        if (his.dead(boss) == true) then
+        if (hunit.isDead(boss) == true) then
             curTimer.destroy()
             for i = 1, hplayer.qty_max, 1 do
-                if (his.playing(hplayer.players[i])) then
+                if (hplayer.isPlaying(hplayer.players[i])) then
                     local hero = hhero.player_heroes[i][1]
                     hattr.set(hero, 0, {
                         life_back = "+100",
@@ -102,9 +102,9 @@ stage3 = function()
             end
             return
         end
-        if (his.alive(fire)) then
+        if (hunit.isAlive(fire)) then
             for i = 1, hplayer.qty_max, 1 do
-                if (his.playing(hplayer.players[i])) then
+                if (hplayer.isPlaying(hplayer.players[i])) then
                     local hero = hhero.player_heroes[i][1]
                     if (math.distance(hunit.x(fire), hunit.y(fire), hunit.x(hero), hunit.y(hero)) <= 700) then
                         hattr.set(hero, 2, { life_back = "+60" })

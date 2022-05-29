@@ -80,7 +80,7 @@ stage1 = function()
         end
     end)
     hevent.onEnterRect(trap1, function(evtData)
-        if (his.alive(boss) and his.allyPlayer(evtData.triggerUnit, game.ALLY_PLAYER)) then
+        if (hunit.isAlive(boss) and hunit.isAllyPlayer(evtData.triggerUnit, game.ALLY_PLAYER)) then
             hattr.set(boss, 10, {
                 attack_white = "+1000",
                 move = "+522",
@@ -91,7 +91,7 @@ stage1 = function()
     end)
     hevent.onDestructableDestroy(JassGlobals.gg_dest_DTg7_0109, function(evtData)
         cj.RemoveDestructable(evtData.triggerDestructable)
-        if (his.alive(boss)) then
+        if (hunit.isAlive(boss)) then
             hunit.kill(boss, 0)
         end
     end)

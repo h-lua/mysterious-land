@@ -225,7 +225,7 @@ return {
                 local isInt = false
                 local selection
                 local data = {}
-                if (his.playing(enumPlayer)) then
+                if (hplayer.isPlaying(enumPlayer)) then
                     selection = hplayer.getSelection(enumPlayer)
                     local ldt = hevent.getPlayerLastDamageTarget(enumPlayer)
                     if (demoCache.lastTarget[idx] ~= ldt) then
@@ -234,9 +234,9 @@ return {
                     end
                     if (selection ~= nil) then
                         local attr = hattribute.get(selection)
-                        if (attr ~= nil and his.alive(selection) and false == his.unitDestroyed(selection)) then
+                        if (attr ~= nil and hunit.isAlive(selection) and false == hunit.isDestroyed(selection)) then
                             show = true
-                            isHero = his.hero(selection)
+                            isHero = hunit.isHero(selection)
                             primary = hhero.getPrimary(selection)
                             isStr = (primary == "STR")
                             isAgi = (primary == "AGI")
@@ -324,15 +324,15 @@ return {
                             data.knocking_odds = attrBuilder("暴击几率", "无", not can_attack, 0, "%")
                             data.hemophagia = attrBuilder("攻击吸血", "无", not can_attack, 0, "%")
                             data.hemophagia_skill = attrBuilder("技能吸血", "无", false, 0, "%")
-                            data.weight = attrBuilder("负重", "无", false == his.hasSlot(selection), 0, "Kg")
+                            data.weight = attrBuilder("负重", "无", false == hunit.hasSlot(selection), 0, "Kg")
                             data.move = attrBuilder("移动", "无", false, math.floor(attr.move), "")
-                            if (his.invincible(selection)) then
+                            if (hunit.isInvincible(selection)) then
                                 data.defend = "护甲:" .. hcolor.gold("无敌")
                             else
                                 data.defend = attrBuilder("护甲", "无", false, math.floor(attr.defend), "")
-                                if (his.immune(selection)) then
+                                if (hunit.isImmune(selection)) then
                                     data.defend = data.defend .. hcolor.grey("[魔免]")
-                                elseif (his.ethereal(selection)) then
+                                elseif (hunit.isEthereal(selection)) then
                                     data.defend = data.defend .. hcolor.grey("[虚无]")
                                 end
                             end
@@ -368,7 +368,7 @@ return {
                     end
                     -- 目标数据
                     if (demoCache.lastTarget[idx]) then
-                        if (his.dead(demoCache.lastTarget[idx]) or his.unitDestroyed(demoCache.lastTarget[idx])) then
+                        if (hunit.isDead(demoCache.lastTarget[idx]) or hunit.isDestroyed(demoCache.lastTarget[idx])) then
                             demoCache.lastTarget[idx] = nil
                             if (selection) then
                                 hevent.setLastDamage(selection, nil)
